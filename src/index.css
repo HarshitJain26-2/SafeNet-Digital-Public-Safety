@@ -349,6 +349,8 @@ body {
   justify-content: space-between;
   padding: 0 32px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 50;
 }
 
 .header-left {
