@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeNet AI | Crime Heatmap Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-surface {
+            background: rgba(14, 19, 31, 0.08);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .glass-panel {
+            background: rgba(14, 19, 31, 0.12);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .primary-glow {
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+        }
+        .primary-glow-hover:hover {
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.4);
+        }
+        .heatmap-gradient {
+            background: linear-gradient(to right, #4edea3, #b4c5ff, #2563eb, #93000a);
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .pulsate {
+            animation: pulsate 2s infinite ease-in-out;
+        }
+        @keyframes pulsate {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#003824",
+                        "surface-container-lowest": "#090e19",
+                        "surface-container-high": "#252a36",
+                        "on-surface": "#dee2f3",
+                        "background": "#0e131f",
+                        "on-background": "#dee2f3",
+                        "surface-container": "#1a202b",
+                        "on-secondary": "#1d00a5",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-surface-variant": "#c3c6d7",
+                        "on-tertiary-fixed": "#002113",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "outline-variant": "#434655",
+                        "on-primary-container": "#eeefff",
+                        "primary-container": "#2563eb",
+                        "secondary-container": "#3626ce",
+                        "on-secondary-fixed": "#0f0069",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "surface-container-low": "#161c27",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-dim": "#0e131f",
+                        "secondary-fixed": "#e2dfff",
+                        "on-secondary-container": "#b3b1ff",
+                        "secondary": "#c3c0ff",
+                        "on-primary": "#002a78",
+                        "on-tertiary-container": "#bdffdb",
+                        "surface-container-highest": "#2f3541",
+                        "outline": "#8d90a0",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "inverse-on-surface": "#2b303d",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface": "#0e131f",
+                        "on-primary-fixed": "#00174b",
+                        "tertiary-container": "#007d55",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-variant": "#2f3541",
+                        "primary": "#b4c5ff",
+                        "surface-tint": "#b4c5ff",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "inverse-surface": "#dee2f3",
+                        "tertiary": "#4edea3",
+                        "surface-bright": "#343946",
+                        "tertiary-fixed": "#6ffbbe",
+                        "inverse-primary": "#0053db",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "top-nav-height": "72px",
+                        "container-padding-desktop": "40px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "sidebar-width": "280px",
+                        "container-padding-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "mono-label": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "mono-label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden">
+<!-- Background Shader -->
+
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface/80 backdrop-blur-3xl border-r border-white/10 shadow-2xl flex flex-col py-8 px-4 z-[50]">
+<div class="mb-10 px-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SafeNet AI</h1>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-60">Intelligence Ops</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Dashboard Tab -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Heatmap Tab (Active) -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-body-md text-body-md">Heatmap</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-body-md text-body-md">Citizen Shield</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Currency Detector</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings_phone</span>
+<span class="font-body-md text-body-md">Call Analyzer</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-body-md text-body-md">Network Graph</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</nav>
+<div class="mt-auto px-4">
+<div class="flex items-center gap-3 p-3 glass-panel rounded-xl">
+<img class="w-10 h-10 rounded-full border border-primary/30" data-alt="Close up portrait of a senior intelligence officer in a dark tactical uniform, soft cinematic lighting, professional government personnel aesthetic, high-fidelity digital art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhUUK7lN9640Jj7_yfx4-Mu84ziUgcbn-2QaseZc1i7Dg5mbNwNeRrCz0C0F9kFwAGSjLw3J5jYf1PGkmB7aqhN51hXAfVH7y-N9HiaKmUtP1XyB_7be6nXAV66g8DX6w5CCgC2Bt8w13iUfQTaE_1-ekTV9XW3w75sKnNWbH2IdEsKBNNdbKgy0BTsr0LfcOLz_3w06-y-H_iqGTHo0AnAX9JcQQ8USsq2Ah_I9N0JfbeCDE5X2e1QB3jysFpMukx2GUDPXKyNx8"/>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Chief Intelligence Officer</p>
+<p class="text-[10px] text-on-surface-variant opacity-60">Admin Access Granted</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] h-screen relative flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="h-[72px] bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-10 z-[40]">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-sm text-headline-sm font-black text-on-surface">Crime Heatmap Intelligence</h2>
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full bg-black/20 border border-white/10 rounded-lg py-2 pl-10 pr-4 text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Search District or Pincode..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 glass-panel rounded-lg hover:text-primary transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 glass-panel rounded-lg hover:text-primary transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg font-label-md text-label-md text-on-primary-container primary-glow hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm">download</span>
+                    EXPORT REPORT
+                </button>
+</div>
+</header>
+<!-- Interactive Map Container -->
+<div class="flex-1 relative overflow-hidden bg-surface-container-lowest">
+<!-- Simulated Map Image Background -->
+<div class="absolute inset-0 z-0 bg-[#060B16]" data-alt="A highly detailed 3D topographic map of India at night, showing major city clusters as glowing hubs of light. The map features a dark, cinematic visual style with subtle neon data overlays including heatmaps in shades of cyan, purple, and red. The aesthetic is clean and futuristic, resembling a high-level government surveillance system." data-location="India" style="">
+<!-- Overlay Gradients for Depth -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-80"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface to-transparent opacity-40"></div>
+<!-- Mock Map Pins/Heatmap Spots -->
+<div class="absolute top-[30%] left-[40%] pulsate w-32 h-32 bg-error/20 rounded-full blur-2xl"></div>
+<div class="absolute top-[60%] left-[65%] pulsate w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
+<div class="absolute top-[45%] left-[25%] pulsate w-20 h-20 bg-tertiary/20 rounded-full blur-2xl"></div>
+<div class="absolute top-[35%] left-[42%] flex flex-col items-center">
+<div class="w-3 h-3 bg-error rounded-full primary-glow"></div>
+<div class="mt-2 glass-panel px-3 py-1 rounded-md text-[10px] font-mono-label">HOTSPOT: NCR-DELHI</div>
+</div>
+<div class="absolute top-[62%] left-[67%] flex flex-col items-center">
+<div class="w-3 h-3 bg-primary rounded-full primary-glow"></div>
+<div class="mt-2 glass-panel px-3 py-1 rounded-md text-[10px] font-mono-label">HOTSPOT: BENGALURU</div>
+</div>
+</div>
+<!-- Left Controls: Crime Filters -->
+<div class="absolute left-8 top-8 w-64 space-y-4 z-10">
+<div class="glass-panel p-5 rounded-2xl">
+<h3 class="font-label-md text-label-md uppercase tracking-wider mb-4 opacity-70">Crime Overlays</h3>
+<div class="space-y-3">
+<label class="flex items-center justify-between cursor-pointer group">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-body-sm text-body-sm">Counterfeit Apps</span>
+</span>
+<input checked="" class="rounded border-white/20 bg-black/40 text-primary focus:ring-0" type="checkbox"/>
+</label>
+<label class="flex items-center justify-between cursor-pointer group">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-sm text-body-sm">Phishing Scams</span>
+</span>
+<input checked="" class="rounded border-white/20 bg-black/40 text-primary focus:ring-0" type="checkbox"/>
+</label>
+<label class="flex items-center justify-between cursor-pointer group">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-body-sm text-body-sm">Digital Arrest</span>
+</span>
+<input class="rounded border-white/20 bg-black/40 text-primary focus:ring-0" type="checkbox"/>
+</label>
+<label class="flex items-center justify-between cursor-pointer group">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-surface-variant"></span>
+<span class="font-body-sm text-body-sm">Identity Theft</span>
+</span>
+<input class="rounded border-white/20 bg-black/40 text-primary focus:ring-0" type="checkbox"/>
+</label>
+</div>
+<div class="mt-6 pt-4 border-t border-white/10">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] uppercase opacity-50">Density Intensity</span>
+<span class="text-[10px] font-mono-label">82%</span>
+</div>
+<div class="h-1.5 w-full bg-black/40 rounded-full overflow-hidden">
+<div class="h-full w-[82%] heatmap-gradient"></div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-5 rounded-2xl">
+<h3 class="font-label-md text-label-md uppercase tracking-wider mb-4 opacity-70">Region Focus</h3>
+<select class="w-full bg-black/20 border border-white/10 rounded-lg py-2 px-3 text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary">
+<option>All Districts</option>
+<option>New Delhi</option>
+<option>Mumbai Suburban</option>
+<option>Bengaluru Urban</option>
+<option>Hyderabad</option>
+</select>
+</div>
+</div>
+<!-- Right Sidebar: Hotspot Ranking & AI Panel -->
+<div class="absolute right-8 top-8 bottom-8 w-[360px] flex flex-col gap-6 z-10">
+<!-- Hotspot Ranking -->
+<div class="glass-panel p-6 rounded-2xl flex-1 flex flex-col overflow-hidden">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-sm text-headline-sm">Hotspot Ranking</h3>
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<div class="flex-1 overflow-y-auto space-y-4 pr-2">
+<!-- Ranking Item 1 -->
+<div class="p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="font-mono-label text-[10px] text-error font-bold uppercase">Critical Priority</span>
+<h4 class="font-body-md text-body-md font-semibold mt-1">NCR - South West Delhi</h4>
+</div>
+<span class="bg-error/20 text-error px-2 py-1 rounded font-mono-label text-[10px]">9.8 Score</span>
+</div>
+<div class="flex items-center gap-4 text-[11px] text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">warning</span> 1.2k Incidents</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">trending_up</span> +14% Rise</span>
+</div>
+</div>
+<!-- Ranking Item 2 -->
+<div class="p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="font-mono-label text-[10px] text-primary font-bold uppercase">High Priority</span>
+<h4 class="font-body-md text-body-md font-semibold mt-1">Mumbai - Bandra West</h4>
+</div>
+<span class="bg-primary/20 text-primary px-2 py-1 rounded font-mono-label text-[10px]">8.4 Score</span>
+</div>
+<div class="flex items-center gap-4 text-[11px] text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">warning</span> 842 Incidents</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">trending_down</span> -2% Fall</span>
+</div>
+</div>
+<!-- Ranking Item 3 -->
+<div class="p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="font-mono-label text-[10px] text-tertiary font-bold uppercase">Moderate</span>
+<h4 class="font-body-md text-body-md font-semibold mt-1">Bengaluru - Koramangala</h4>
+</div>
+<span class="bg-tertiary/20 text-tertiary px-2 py-1 rounded font-mono-label text-[10px]">6.7 Score</span>
+</div>
+<div class="flex items-center gap-4 text-[11px] text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">warning</span> 521 Incidents</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">trending_up</span> +5% Rise</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Deployment Recommendation Panel -->
+<div class="glass-panel p-6 rounded-2xl bg-primary-container/20 border-primary/30 relative overflow-hidden pulsate">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary fill-current">bolt</span>
+<h3 class="font-label-md text-label-md font-bold uppercase tracking-widest text-primary">AI Deployment Rec</h3>
+</div>
+<p class="font-body-sm text-body-sm leading-relaxed mb-4">
+                            Emerging <span class="text-error font-bold">Counterfeit Network</span> detected in Jamtara-Kolkata corridor. Cluster analysis suggests 85% probability of peak activity within 48 hours.
+                        </p>
+<div class="bg-black/20 p-3 rounded-lg border border-primary/20 mb-4">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-mono-label">RECO: DEPLOY CYBER TASK FORCE</span>
+<span class="text-[10px] text-tertiary">CONFIDENCE: 92%</span>
+</div>
+<button class="w-full bg-primary py-2 rounded-lg text-label-md font-bold text-on-primary-container hover:brightness-110 transition-all">
+                                AUTHORIZE DEPLOYMENT
+                            </button>
+</div>
+</div>
+<!-- Decorative pulsating effect -->
+<div class="absolute -right-10 -bottom-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl"></div>
+</div>
+</div>
+<!-- Bottom Control: Time Slider -->
+<div class="absolute bottom-8 left-8 right-[412px] glass-panel px-8 py-6 rounded-2xl z-10">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-4">
+<button class="p-2 bg-white/5 rounded-full hover:bg-white/10">
+<span class="material-symbols-outlined text-primary">play_arrow</span>
+</button>
+<h4 class="font-headline-sm text-headline-sm">Timeline Playback</h4>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 glass-panel rounded-full text-label-md active:bg-primary/20 transition-all">24H</button>
+<button class="px-4 py-1.5 glass-panel rounded-full text-label-md bg-primary/20 border-primary/40 transition-all">7D</button>
+<button class="px-4 py-1.5 glass-panel rounded-full text-label-md active:bg-primary/20 transition-all">30D</button>
+<button class="px-4 py-1.5 glass-panel rounded-full text-label-md active:bg-primary/20 transition-all">CUSTOM</button>
+</div>
+</div>
+<div class="relative pt-4">
+<input class="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="1" type="range" value="75"/>
+<div class="flex justify-between mt-3 px-1 text-[10px] font-mono-label opacity-40 uppercase">
+<span>OCT 01, 2023</span>
+<span>OCT 08, 2023</span>
+<span>OCT 15, 2023</span>
+<span>OCT 22, 2023</span>
+<span class="text-primary opacity-100">TODAY, OCT 27</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating AI Assistant Bubble -->
+<div class="fixed bottom-8 right-8 z-[100]">
+<div class="w-14 h-14 bg-primary rounded-full flex items-center justify-center primary-glow pulsate cursor-pointer hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">smart_toy</span>
+</div>
+<div class="absolute bottom-full right-0 mb-4 w-72 glass-panel p-4 rounded-2xl opacity-0 translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+<p class="font-body-sm text-body-sm italic">"Officer, I've noticed a new pattern of digital arrests in Sector 4. Would you like a detailed breakdown?"</p>
+</div>
+</div>
+<!-- Notification Drawer (Hidden by default) -->
+<div class="fixed right-0 top-0 h-full w-[400px] bg-surface-container-high/90 backdrop-blur-2xl border-l border-white/15 shadow-[0_0_40px_rgba(0,0,0,0.5)] z-[100] translate-x-full transition-transform duration-300 ease-in-out p-6" id="notif-drawer">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Alert Center</h3>
+<button class="p-2 hover:bg-white/5 rounded-full" onclick="toggleDrawer()"><span class="material-symbols-outlined">close</span></button>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-error-container/20 border border-error/30 rounded-xl">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-error">warning</span>
+<span class="font-label-md text-label-md font-bold text-error">CRITICAL ALERT</span>
+</div>
+<p class="font-body-sm text-body-sm">Massive DDoS attempt detected originating from known hotspot in East Delhi. Shield protocol activated.</p>
+<p class="text-[10px] mt-2 opacity-50 font-mono-label">2 MINUTES AGO</p>
+</div>
+<div class="p-4 bg-white/5 border border-white/10 rounded-xl">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-tertiary">dns</span>
+<span class="font-label-md text-label-md font-bold text-tertiary">SYSTEM STATUS</span>
+</div>
+<p class="font-body-sm text-body-sm">Deep Scan of Pincode 110001 completed. 12 potential scam nodes flagged for manual review.</p>
+<p class="text-[10px] mt-2 opacity-50 font-mono-label">15 MINUTES AGO</p>
+</div>
+</div>
+</div>
+<script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('notif-drawer');
+            drawer.classList.toggle('translate-x-full');
+        }
+        
+        // Simulating some dynamic map movement
+        const pins = document.querySelectorAll('.pulsate');
+        setInterval(() => {
+            pins.forEach(pin => {
+                const opacity = 0.1 + Math.random() * 0.3;
+                pin.style.opacity = opacity;
+            });
+        }, 3000);
+    </script>
+</body></html>

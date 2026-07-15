@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeNet AI | Digital Public Safety Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "inverse-surface": "#dee2f3",
+                "on-secondary-fixed": "#0f0069",
+                "secondary": "#c3c0ff",
+                "inverse-primary": "#0053db",
+                "surface-container-low": "#161c27",
+                "on-primary": "#002a78",
+                "tertiary-fixed-dim": "#4edea3",
+                "error": "#ffb4ab",
+                "on-surface-variant": "#c3c6d7",
+                "on-primary-fixed-variant": "#003ea8",
+                "secondary-fixed-dim": "#c3c0ff",
+                "on-secondary-fixed-variant": "#3323cc",
+                "primary-fixed": "#dbe1ff",
+                "surface": "#0e131f",
+                "background": "#0e131f",
+                "outline-variant": "#434655",
+                "on-background": "#dee2f3",
+                "on-tertiary": "#003824",
+                "surface-container-high": "#252a36",
+                "on-error-container": "#ffdad6",
+                "surface-tint": "#b4c5ff",
+                "on-error": "#690005",
+                "surface-container": "#1a202b",
+                "surface-bright": "#343946",
+                "on-secondary-container": "#b3b1ff",
+                "on-surface": "#dee2f3",
+                "tertiary": "#4edea3",
+                "on-tertiary-fixed-variant": "#005236",
+                "surface-variant": "#2f3541",
+                "surface-container-highest": "#2f3541",
+                "error-container": "#93000a",
+                "on-primary-fixed": "#00174b",
+                "surface-container-lowest": "#090e19",
+                "primary-fixed-dim": "#b4c5ff",
+                "outline": "#8d90a0",
+                "on-tertiary-container": "#bdffdb",
+                "on-primary-container": "#eeefff",
+                "on-secondary": "#1d00a5",
+                "secondary-fixed": "#e2dfff",
+                "tertiary-container": "#007d55",
+                "primary": "#b4c5ff",
+                "secondary-container": "#3626ce",
+                "primary-container": "#2563eb",
+                "on-tertiary-fixed": "#002113",
+                "inverse-on-surface": "#2b303d",
+                "surface-dim": "#0e131f",
+                "tertiary-fixed": "#6ffbbe"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "container-padding-mobile": "20px",
+                "sidebar-width": "280px",
+                "container-padding-desktop": "40px",
+                "gutter": "24px",
+                "top-nav-height": "72px",
+                "unit": "8px"
+            },
+            "fontFamily": {
+                "body-md": ["Inter"],
+                "label-md": ["Inter"],
+                "headline-md": ["Inter"],
+                "display-lg": ["Inter"],
+                "body-sm": ["Inter"],
+                "mono-label": ["JetBrains Mono"],
+                "headline-sm": ["Inter"],
+                "headline-lg": ["Inter"],
+                "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "mono-label": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #060B16;
+            color: #dee2f3;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-modal {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.25);
+            border-color: rgba(37, 99, 235, 0.4);
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(37, 99, 235, 0.1); }
+            50% { box-shadow: 0 0 35px rgba(37, 99, 235, 0.4); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #b4c5ff 0%, #4edea3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-body-md">
+<!-- Global Layout Wrapper -->
+<div class="relative min-h-screen">
+<!-- Background Animation Layer -->
+<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+
+<div class="absolute inset-0 bg-gradient-to-b from-[#060B16]/20 via-[#060B16]/60 to-[#060B16]"></div>
+</div>
+<!-- Top Navigation -->
+<nav class="fixed top-0 left-0 right-0 h-[72px] z-[50] flex items-center justify-between px-10 bg-surface/40 backdrop-blur-xl border-b border-white/5">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">security</span>
+</div>
+<span class="font-headline-sm text-headline-sm font-black text-on-surface tracking-tight">SafeNet AI</span>
+</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="text-primary font-bold transition-all hover:opacity-80" href="#">Platform</a>
+<a class="text-on-surface-variant font-medium transition-all hover:text-primary" href="#">Intelligence</a>
+<a class="text-on-surface-variant font-medium transition-all hover:text-primary" href="#">Network</a>
+<a class="text-on-surface-variant font-medium transition-all hover:text-primary" href="#">Public Safety</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="px-6 py-2 bg-primary-container text-white rounded-full font-bold text-sm glow-hover transition-all">
+                    Access Portal
+                </button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative pt-48 pb-32 px-10 max-w-7xl mx-auto flex flex-col items-center text-center">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border-white/10 mb-8">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-label-md font-label-md text-tertiary uppercase tracking-widest">Global Intelligence Live</span>
+</div>
+<h1 class="font-display-lg text-display-lg md:text-7xl mb-6 tracking-tighter leading-tight max-w-5xl">
+                SafeNet AI: AI-Powered Digital <br/>
+<span class="text-gradient">Public Safety Intelligence</span> Platform
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mb-12">
+                Protecting Citizens Against Digital Arrest Scams, Counterfeit Currency, and Financial Fraud through high-performance enterprise analytics.
+            </p>
+<div class="flex flex-col sm:flex-row gap-6 mb-20">
+<button class="px-10 py-5 bg-primary text-on-primary rounded-xl font-bold text-lg glow-hover transition-all flex items-center gap-3">
+                    Try AI Fraud Shield <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="px-10 py-5 glass-panel text-on-surface rounded-xl font-bold text-lg border-white/15 hover:bg-white/5 transition-all">
+                    Explore Dashboard
+                </button>
+</div>
+<!-- Dashboard Preview Mockup -->
+<div class="relative w-full aspect-video glass-modal rounded-[32px] p-4 shadow-2xl overflow-hidden border-white/10 group">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent"></div>
+<div class="relative w-full h-full rounded-2xl overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A futuristic and sophisticated command center dashboard with high-tech glassmorphism aesthetics. The interface displays complex data visualizations, network graphs of digital forensic trails, real-time threat maps of India, and glowing KPI metrics in deep navy and electric blue tones. The lighting is low and focused, emphasizing the precise digital environment and premium enterprise quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfdY_wQxfXimZp_b18j4ZzOOuKVQ6eyFjVqEupvmdbDCLUXxUvVWlnoozToQSXyMlOw1L-NDsGWtlnKNmtplt65PwEo71HeieKGi8oT6RwInLB2Q4XxcGoFTSOxxSumQ0QDx62v0y9F7GFZcrSjDLTPRS7f3A7Pf9PlUmrlNslmlgor_Ke0zm8uWFrhrMK_ObSdl5GJVid4Lwcm1zR1tkQPt3AVpRbf1bLElsUFL7imxNA5dPMwbKCpssVLqCv0RnD25fsRzmZofo"/>
+<!-- Overlay Floating Element -->
+<div class="absolute top-8 left-8 glass-panel p-6 rounded-2xl border-white/20 animate-bounce duration-[4s]">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="text-label-md text-error">CRITICAL THREAT DETECTED</span>
+</div>
+<div class="text-headline-sm font-headline-sm text-on-surface">Digital Arrest Scam</div>
+<div class="text-body-sm text-on-surface-variant">Trace identified in New Delhi cluster</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="py-20 bg-surface-container-lowest/50 border-y border-white/5">
+<div class="max-w-7xl mx-auto px-10 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+<div>
+<div class="text-headline-lg font-headline-lg text-primary mb-2">99.8%</div>
+<div class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest">Detection Accuracy</div>
+</div>
+<div>
+<div class="text-headline-lg font-headline-lg text-tertiary mb-2">4.2M+</div>
+<div class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest">Citizens Protected</div>
+</div>
+<div>
+<div class="text-headline-lg font-headline-lg text-secondary mb-2">250ms</div>
+<div class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest">Real-time Response</div>
+</div>
+<div>
+<div class="text-headline-lg font-headline-lg text-on-surface mb-2">50+</div>
+<div class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest">Agencies Integrated</div>
+</div>
+</div>
+</section>
+<!-- Map & Visualization Section -->
+<section class="py-32 px-10 max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-6">Real-time Intelligence across the <span class="text-primary">Subcontinent</span></h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-10 leading-relaxed">
+                    Our multi-layered neural network monitors digital forensic trails nationwide. From Metropolitan hubs to rural financial touchpoints, SafeNet AI identifies anomalies before they escalate into societal threats.
+                </p>
+<ul class="space-y-6">
+<li class="flex items-start gap-4">
+<div class="p-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">map</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm mb-1">Geospatial Threat Mapping</div>
+<div class="text-body-sm text-on-surface-variant">Live heatmap of reported fraud attempts and scam origins.</div>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<div class="p-2 rounded-lg bg-tertiary/10 text-tertiary">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm mb-1">Cross-Agency Network</div>
+<div class="text-body-sm text-on-surface-variant">Unified communication layer for state and central law enforcement.</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="relative aspect-square glass-panel rounded-full p-12 border-white/5 flex items-center justify-center">
+<div class="absolute inset-0 bg-primary/5 rounded-full blur-[100px]"></div>
+<!-- Animated Map Mock -->
+<div class="relative w-full h-full flex items-center justify-center">
+
+<!-- Pulse points -->
+<div class="absolute top-[30%] left-[45%] w-4 h-4 bg-error rounded-full animate-ping"></div>
+<div class="absolute top-[60%] left-[50%] w-3 h-3 bg-tertiary rounded-full animate-ping"></div>
+<div class="absolute top-[45%] left-[30%] w-4 h-4 bg-primary rounded-full animate-ping"></div>
+</div>
+</div>
+</section>
+<!-- Feature Bento Grid -->
+<section class="py-32 px-10 max-w-7xl mx-auto">
+<div class="text-center mb-20">
+<h2 class="font-headline-lg text-headline-lg mb-4">Unmatched Intelligence Toolset</h2>
+<p class="text-on-surface-variant">Sophisticated defense layers for the modern digital era.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="md:col-span-2 glass-panel p-10 rounded-[32px] border-white/10 hover:border-primary/40 transition-all flex flex-col md:flex-row gap-10">
+<div class="flex-1">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">security</span>
+<h3 class="font-headline-md text-headline-md mb-4">Citizen Shield</h3>
+<p class="text-on-surface-variant mb-6">Advanced behavioral AI that intercepts 'Digital Arrest' scam calls by analyzing patterns in VoiP packet routing and voice synthetics.</p>
+<button class="text-primary font-bold flex items-center gap-2 group">
+                            Technical Spec <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="flex-1 rounded-2xl overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist 3D rendering of a digital shield icon protected by glowing blue circuits and floating holographic data streams. The aesthetic is ultra-modern, high-tech, and secure, set against a deep obsidian background with soft atmospheric lighting in shades of royal blue and teal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPDGKWdnY93QrJd1lPUTCi4liCvxANqPNHyKALdK8Vcy1SxhBehys32CHMnZjZnF7FV35FIx2w-L4VXTjLIo-5Veus3b899rAh2F81O9VvmXbwlsAlqqV011vKb9nuEAgaSKNmQ9fGEhXfqKHujMFHrpYUWt__P45w1WT8pXce__zuAhvcI7jmjlEUXto0YIfet3Q4MCfHRgL7jV0p8PcKjVtepjim0Qk1oGGln-DyOX0zFpxDohKOEErRomSnbpO6xSDt13MF9cs"/>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel p-10 rounded-[32px] border-white/10 hover:border-tertiary/40 transition-all flex flex-col">
+<span class="material-symbols-outlined text-4xl text-tertiary mb-6">payments</span>
+<h3 class="font-headline-md text-headline-md mb-4">Currency Detector</h3>
+<p class="text-on-surface-variant flex-grow">Computer vision systems designed for real-time counterfeit detection via smart-scanning and deep optical analysis.</p>
+<div class="mt-8 w-full h-32 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center italic text-body-sm text-on-surface-variant/50">
+                        Neural Image Analysis Active
+                    </div>
+</div>
+<!-- Card 3 -->
+<div class="glass-panel p-10 rounded-[32px] border-white/10 hover:border-secondary/40 transition-all">
+<span class="material-symbols-outlined text-4xl text-secondary mb-6">settings_phone</span>
+<h3 class="font-headline-md text-headline-md mb-4">Call Analyzer</h3>
+<p class="text-on-surface-variant">Voice biometric verification and fraud score profiling for unknown incoming international communications.</p>
+</div>
+<!-- Card 4 -->
+<div class="md:col-span-2 glass-panel p-10 rounded-[32px] border-white/10 hover:border-primary/40 transition-all flex items-center justify-between overflow-hidden relative">
+<div class="max-w-md relative z-10">
+<span class="material-symbols-outlined text-4xl text-primary mb-6">hub</span>
+<h3 class="font-headline-md text-headline-md mb-4">Network Graph Engine</h3>
+<p class="text-on-surface-variant">Trace financial laundering pathways through multi-hop network visualizations, uncovering organized crime clusters.</p>
+</div>
+<div class="absolute right-0 top-0 bottom-0 w-1/2 opacity-40">
+
+</div>
+</div>
+</div>
+</section>
+<!-- Tech Stack -->
+<section class="py-32 bg-surface-container-low/30 relative">
+<div class="max-w-7xl mx-auto px-10">
+<div class="flex flex-col md:flex-row justify-between items-end gap-10 mb-20">
+<div class="max-w-2xl">
+<h2 class="font-headline-lg text-headline-lg mb-4">Enterprise Grade Infrastructure</h2>
+<p class="text-on-surface-variant">SafeNet AI is built on a resilient, military-grade technology stack designed for 100% uptime and high-concurrency intelligence operations.</p>
+</div>
+<div class="flex gap-4">
+<div class="w-12 h-12 glass-panel rounded-lg flex items-center justify-center"><span class="material-symbols-outlined">storage</span></div>
+<div class="w-12 h-12 glass-panel rounded-lg flex items-center justify-center"><span class="material-symbols-outlined">memory</span></div>
+<div class="w-12 h-12 glass-panel rounded-lg flex items-center justify-center"><span class="material-symbols-outlined">cloud</span></div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="p-8 glass-panel rounded-2xl border-white/5 text-center">
+<div class="font-mono-label text-mono-label text-primary mb-2">CORE AI</div>
+<div class="font-headline-sm">PyTorch 2.0</div>
+</div>
+<div class="p-8 glass-panel rounded-2xl border-white/5 text-center">
+<div class="font-mono-label text-mono-label text-tertiary mb-2">COMPUTE</div>
+<div class="font-headline-sm">CUDA XL</div>
+</div>
+<div class="p-8 glass-panel rounded-2xl border-white/5 text-center">
+<div class="font-mono-label text-mono-label text-secondary mb-2">DATABASE</div>
+<div class="font-headline-sm">Neo4j Graph</div>
+</div>
+<div class="p-8 glass-panel rounded-2xl border-white/5 text-center">
+<div class="font-mono-label text-mono-label text-on-surface-variant mb-2">SECURE</div>
+<div class="font-headline-sm">FIPS 140-3</div>
+</div>
+<div class="p-8 glass-panel rounded-2xl border-white/5 text-center">
+<div class="font-mono-label text-mono-label text-primary mb-2">INTERFACE</div>
+<div class="font-headline-sm">WebGL Core</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-40 px-10">
+<div class="max-w-5xl mx-auto glass-modal p-20 rounded-[48px] text-center relative overflow-hidden">
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/20 rounded-full blur-[100px]"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-tertiary/20 rounded-full blur-[100px]"></div>
+<h2 class="font-display-lg text-display-lg mb-8 relative z-10">Ready to secure your digital jurisdiction?</h2>
+<p class="text-body-lg text-on-surface-variant mb-12 max-w-2xl mx-auto relative z-10">Join the national network of intelligence agencies leveraging SafeNet AI for a fraud-free future.</p>
+<div class="flex flex-col sm:flex-row justify-center gap-6 relative z-10">
+<button class="px-12 py-6 bg-primary text-on-primary rounded-2xl font-bold text-xl glow-hover transition-all">Request Agency Demo</button>
+<button class="px-12 py-6 glass-panel text-on-surface rounded-2xl font-bold text-xl border-white/15 hover:bg-white/5 transition-all">Contact Security Desk</button>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest pt-32 pb-16 px-10 border-t border-white/5">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-20 mb-20">
+<div class="md:col-span-1">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">security</span>
+</div>
+<span class="font-headline-sm text-headline-sm font-black text-on-surface">SafeNet AI</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed mb-6">
+                        The definitive intelligence layer for public safety, financial integrity, and digital citizen protection in the age of AI-driven fraud.
+                    </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 glass-panel rounded-full flex items-center justify-center hover:bg-white/10 transition-colors" href="#"><span class="material-symbols-outlined text-sm">share</span></a>
+<a class="w-10 h-10 glass-panel rounded-full flex items-center justify-center hover:bg-white/10 transition-colors" href="#"><span class="material-symbols-outlined text-sm">mail</span></a>
+</div>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface uppercase tracking-widest mb-8">Intelligence Platform</h4>
+<ul class="space-y-4 text-body-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Fraud Shield Core</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">National Threat Map</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Counterfeit Detection</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Network Graphing</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface uppercase tracking-widest mb-8">Public Safety</h4>
+<ul class="space-y-4 text-body-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Citizen Awareness</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Agency Integration</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Incident Reporting</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Legal Compliance</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface uppercase tracking-widest mb-8">Legal &amp; Enterprise</h4>
+<ul class="space-y-4 text-body-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Security Architecture</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Framework</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Support Portal</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5">
+<div class="text-body-sm text-on-surface-variant/60 flex items-center gap-4">
+<span>© 2024 SafeNet Intelligence Systems</span>
+<span class="w-1 h-1 bg-white/20 rounded-full"></span>
+<span>Government Grade AI Platform</span>
+</div>
+<div class="flex items-center gap-6">
+<img class="h-12 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer" data-alt="A small, professional circular seal representing a governmental security board or agency. The design is elegant, featuring a laurel wreath and a central shield, presented in a monochrome white-on-transparent style to match a premium enterprise footer." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfyxvY9d6O8TlSnriG7C0_qTYC_2wyByA-X6sUICTXsMJ5jffWWWKgl-YKJV-PRecydhJJd459lZZgYAX5kgEwB7_gVdfaIn6vwAXUeF-Xx8fTqdzSUxOCJNfrYfOCeS44Xxb5R49jwzKs6BljHQei8eg0REodlU2g2d94W9tflRKkgEwnzacrLYCcKg9bKCvq6bwHyoJrGZOycecdVI-jZTBVwav1I8j86fhnUI0RCoMbQ_pahq9pN-o4dmLvSbNemwwQx6aA8nE"/>
+<img class="h-10 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer" data-alt="A small, sleek certification badge for cybersecurity excellence and ISO standards. The badge features minimalist typography and a subtle checkmark icon, designed with a futuristic, clean aesthetic in white to blend into a high-end intelligence platform footer." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtQBikfIga-RNzA9q2sy8dO-vHc-UXnJ26-YdQu_dScosyzCEj1nq4ZBN8U3ldT78vTCAfoDg9GiOdel6Aooh_QOrscmqGoM6dEt4uAAGV3ae8ckvUdkd2FZBjZY-3IpjTkoxbo25RbpxLOlyukGPIDAurToP25jiHCnRLNoAMeGNa9xtYTLKcyxZ09uQvwvVh_2YEyc35Gd8CITWhPDstCh2KII8H9PzV7Qv6Cw5S02DHf8m6LA45OUDmpVD8HvNYVCkUZLK6wew"/>
+</div>
+</div>
+</footer>
+<!-- AI Assistant Floating Bubble -->
+<div class="fixed bottom-10 right-10 z-[100]">
+<button class="w-16 h-16 rounded-full glass-modal border-white/20 flex items-center justify-center animate-pulse-glow hover:scale-110 transition-transform group">
+<span class="material-symbols-outlined text-primary text-3xl">smart_toy</span>
+<!-- Tooltip -->
+<div class="absolute right-full mr-4 px-4 py-2 bg-surface-container-high text-on-surface text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                    Intel Assistant Online
+                </div>
+</button>
+</div>
+</div>
+<!-- Micro-interaction Scripts -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll reveal effects
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, observerOptions);
+
+            // Adding classes for smooth reveal
+            document.querySelectorAll('section > div').forEach(el => {
+                el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+                observer.observe(el);
+            });
+
+            // Sticky nav background transition
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    nav.classList.add('bg-surface/80', 'py-2');
+                    nav.classList.remove('bg-surface/40', 'py-4');
+                } else {
+                    nav.classList.remove('bg-surface/80', 'py-2');
+                    nav.classList.add('bg-surface/40', 'py-4');
+                }
+            });
+        });
+    </script>
+</body></html>

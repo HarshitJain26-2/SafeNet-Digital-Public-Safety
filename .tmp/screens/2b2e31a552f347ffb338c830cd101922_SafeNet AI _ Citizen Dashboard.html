@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeNet AI | Citizen Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-surface {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-surface-high {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .tonal-stacking {
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .kpi-glow:hover {
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+            border-bottom-color: #2563eb;
+        }
+        .emergency-glow {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { transform: scale(1); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#2563eb",
+                        "surface-bright": "#343946",
+                        "on-surface": "#dee2f3",
+                        "on-primary": "#002a78",
+                        "primary": "#b4c5ff",
+                        "on-secondary": "#1d00a5",
+                        "inverse-on-surface": "#2b303d",
+                        "error": "#ffb4ab",
+                        "secondary": "#c3c0ff",
+                        "inverse-surface": "#dee2f3",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "background": "#0e131f",
+                        "primary-fixed": "#dbe1ff",
+                        "tertiary": "#4edea3",
+                        "surface-container-lowest": "#090e19",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "outline": "#8d90a0",
+                        "on-primary-container": "#eeefff",
+                        "on-error": "#690005",
+                        "on-tertiary": "#003824",
+                        "tertiary-container": "#007d55",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "inverse-primary": "#0053db",
+                        "surface-container": "#1a202b",
+                        "tertiary-fixed": "#6ffbbe",
+                        "secondary-container": "#3626ce",
+                        "on-background": "#dee2f3",
+                        "surface-variant": "#2f3541",
+                        "surface-container-highest": "#2f3541",
+                        "surface-tint": "#b4c5ff",
+                        "on-primary-fixed": "#00174b",
+                        "surface": "#0e131f",
+                        "surface-container-high": "#252a36",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-container-low": "#161c27",
+                        "secondary-fixed": "#e2dfff",
+                        "on-surface-variant": "#c3c6d7",
+                        "surface-dim": "#0e131f",
+                        "outline-variant": "#434655",
+                        "on-secondary-container": "#b3b1ff",
+                        "on-secondary-fixed": "#0f0069",
+                        "on-tertiary-fixed": "#002113",
+                        "on-tertiary-container": "#bdffdb",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-tertiary-fixed-variant": "#005236"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "sidebar-width": "280px",
+                        "container-padding-desktop": "40px",
+                        "top-nav-height": "72px",
+                        "gutter": "24px",
+                        "container-padding-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"], "body-lg": ["Inter"], "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"], "body-md": ["Inter"], "mono-label": ["JetBrains Mono"],
+                        "label-md": ["Inter"], "display-lg": ["Inter"], "headline-lg": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md selection:bg-primary/30 antialiased overflow-x-hidden">
+<!-- Global Layout Shell -->
+<div class="flex min-h-screen">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface/80 backdrop-blur-3xl bg-white/5 border-r border-white/10 shadow-2xl z-50 flex flex-col py-8 px-4">
+<div class="flex items-center gap-3 mb-10 px-2">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary tracking-tight">SafeNet AI</h1>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold">Intelligence Ops</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 py-3 px-4 rounded-xl text-primary font-bold border-r-2 border-primary bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-xl text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-body-md text-body-md">Citizen Shield</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-xl text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Currency Detector</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-xl text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">settings_phone</span>
+<span class="font-body-md text-body-md">Call Analyzer</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-xl text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-body-md text-body-md">Network Graph</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-xl text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-white/10">
+<div class="glass-surface p-4 rounded-2xl flex items-center gap-3">
+<img class="w-10 h-10 rounded-lg object-cover ring-1 ring-white/20" data-alt="A professional portrait of a senior intelligence officer with a clean-cut look, wearing a dark tactical turtleneck, set against a background of dimly lit holographic data screens in a futuristic command center. The lighting is cold blue with sharp rim highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3Iy8aQnQuEmcIhulvKrgeQH1Y-D4dKSzhImrhkmkMHrtUkbkHVYJz3DYoEV7PykwSney2S2UbrrEwocJM9iK4N8l6LU_aVx5POWnJgjGTFJiECZq87bDZsZXtCfOskUuM9waRADsg47G3IixdyppMQAVtjHZQ2TOq4xf64w9f-HZg0Z5r4b96jctymoBe5n2PYevRcT84BzuoR4HtBWOsHLtKsyMGnwTuQwtqoYF76lYpnRQPoCZic3dTyStw7h1dxX9-e3AiYJQ"/>
+<div class="flex-1 overflow-hidden">
+<p class="font-bold text-sm truncate">Marcus Vance</p>
+<p class="text-xs text-on-surface-variant">Chief Intel Officer</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</div>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="ml-[280px] flex-1 min-h-screen flex flex-col relative">
+<!-- TopNavBar Anchor -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-[72px] bg-surface/40 backdrop-blur-xl bg-white/5 border-b border-white/10 flex justify-between items-center px-10 z-40">
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-black/20 border-white/5 border rounded-full pl-10 pr-4 py-2 w-[320px] focus:w-[400px] transition-all focus:ring-1 focus:ring-primary focus:border-primary outline-none text-sm" placeholder="Search threats, reports, or logs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full glass-surface hover:text-primary transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2.5 right-2.5 w-2 h-2 bg-error rounded-full border border-surface"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full glass-surface hover:text-primary transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-6 w-px bg-white/10 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-xs font-bold leading-none">Intelligence Desk</p>
+<p class="text-[10px] text-tertiary">Active Status</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<div class="mt-[72px] p-10 flex gap-8">
+<!-- Main Content (Left Column) -->
+<div class="flex-1 space-y-8">
+<!-- Welcome Section -->
+<div class="flex items-end justify-between">
+<div>
+<h2 class="font-display-lg text-display-lg font-bold tracking-tight text-white mb-2">Good Morning, Citizen</h2>
+<p class="text-on-surface-variant max-w-xl">Your personal AI Shield is currently monitoring <span class="text-primary font-bold">14 regional threat vectors</span>. Everything looks secure in your immediate digital perimeter.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-3 rounded-xl glass-surface-high font-bold hover:bg-white/10 transition-all border border-white/10 active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                                View Detailed Audit
+                            </button>
+</div>
+</div>
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-4 gap-6">
+<div class="glass-surface-high p-6 rounded-3xl tonal-stacking border-l-4 border-l-error relative overflow-hidden group kpi-glow transition-all">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[64px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Active Threats</p>
+<h3 class="text-4xl font-black text-error">03</h3>
+<p class="text-xs mt-2 text-error/80 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">trending_up</span> 12% from yesterday
+                            </p>
+</div>
+<div class="glass-surface p-6 rounded-3xl border-b border-transparent kpi-glow transition-all">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Reports Submitted</p>
+<h3 class="text-4xl font-black text-on-surface">128</h3>
+<p class="text-xs mt-2 text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">verified</span> High Accuracy Score
+                            </p>
+</div>
+<div class="glass-surface p-6 rounded-3xl border-b border-transparent kpi-glow transition-all">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Pending Complaints</p>
+<h3 class="text-4xl font-black text-on-surface">07</h3>
+<p class="text-xs mt-2 text-on-surface-variant">Awaiting Verification</p>
+</div>
+<div class="glass-surface p-6 rounded-3xl border-b border-transparent kpi-glow transition-all">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Resolved Cases</p>
+<h3 class="text-4xl font-black text-tertiary">1,242</h3>
+<p class="text-xs mt-2 text-tertiary/80 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">check_circle</span> 98% Success Rate
+                            </p>
+</div>
+</div>
+<!-- Widgets Grid -->
+<div class="grid grid-cols-2 gap-8">
+<!-- Nearby Scam Alerts Map/List Widget -->
+<div class="glass-surface rounded-3xl flex flex-col h-[500px] overflow-hidden">
+<div class="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
+<h4 class="font-headline-sm text-headline-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+                                    Nearby Scam Alerts
+                                </h4>
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] rounded-full font-black uppercase tracking-wider">Live Map</span>
+</div>
+<div class="flex-1 relative bg-surface-container-lowest overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center grayscale opacity-40" data-alt="A futuristic, stylized topographical map of a metropolitan city at night. The map uses neon blue lines for streets and deep navy for blocks. Glowing red pulse markers indicate scam alert locations, with subtle data overlays showing signal strength. The aesthetic is high-tech military intelligence interface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBDY_mErKw9CyvTnrh7_DFxOaIFfiGdrOlzTCLUUGZ40MK_Lyckd6HGFg4UfZdtBlcb3nhmrHcZ3gyi8UHsUP7G8NUTnyYmQAf6Z53gxrGpDihjAd-iWhCDVGPwRt48nqij4ryiRoK_kfJuYBVA52VEGywerw6I-7Q2cNqEpl8S9Nf-8zCTqvRbNnX1kuclbxi-7lhYKt0K89NIF0VnD1IsGyX7KfDmCAjDqeNVV5yqcAX4y7G5ND_-rt4YgezlGfzjllNLtH7mVuM')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+<div class="absolute top-4 left-4 z-10 space-y-2">
+<div class="glass-surface-high p-3 rounded-xl border border-white/10 flex items-center gap-3 max-w-xs animate-pulse">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<p class="text-xs font-bold">Vishing spike detected in North Sector</p>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 right-4 z-10 glass-surface-high p-4 rounded-2xl flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-primary border-2 border-surface flex items-center justify-center text-[10px] font-bold">14</div>
+<div class="w-8 h-8 rounded-full bg-secondary border-2 border-surface flex items-center justify-center text-[10px] font-bold">32</div>
+</div>
+<p class="text-xs text-on-surface-variant">Nearby scanning citizens</p>
+<button class="bg-primary text-on-primary text-xs font-bold px-4 py-2 rounded-lg">Expand View</button>
+</div>
+</div>
+</div>
+<!-- Latest Alerts Feed -->
+<div class="glass-surface rounded-3xl flex flex-col h-[500px] overflow-hidden">
+<div class="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
+<h4 class="font-headline-sm text-headline-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">rss_feed</span>
+                                    Intelligence Feed
+                                </h4>
+<button class="text-xs text-on-surface-variant hover:text-white transition-colors">Mark all read</button>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
+<!-- Alert Item -->
+<div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/20 transition-all flex gap-4">
+<div class="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-error">phone_in_talk</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-bold text-error uppercase">Vishing Alert</span>
+<span class="text-[10px] text-on-surface-variant">• 4m ago</span>
+</div>
+<p class="text-sm font-semibold mb-1">Suspicious Automated Call Bank</p>
+<p class="text-xs text-on-surface-variant">Multiple reports of AI-voice spoofing matching 'Bank Registry' signatures. Do not share OTPs.</p>
+</div>
+</div>
+<!-- Alert Item -->
+<div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/20 transition-all flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">mail</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-bold text-primary uppercase">Phishing Filter</span>
+<span class="text-[10px] text-on-surface-variant">• 2h ago</span>
+</div>
+<p class="text-sm font-semibold mb-1">Tax Refund SMS Campaign</p>
+<p class="text-xs text-on-surface-variant">Global block active on domain 'gov-refund-portal.net'. Intelligence score: 99.4% fraudulent.</p>
+</div>
+</div>
+<!-- Alert Item -->
+<div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/20 transition-all flex gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary">payments</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-bold text-tertiary uppercase">Currency Advisory</span>
+<span class="text-[10px] text-on-surface-variant">• 5h ago</span>
+</div>
+<p class="text-sm font-semibold mb-1">New Series B Note Validation</p>
+<p class="text-xs text-on-surface-variant">SafeNet scanner updated with latest UV-signatures for regional Series B notes.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<div>
+<h4 class="font-headline-sm text-headline-sm mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">bolt</span>
+                            Quick Operations
+                        </h4>
+<div class="grid grid-cols-4 gap-4">
+<button class="flex flex-col items-center justify-center p-6 rounded-3xl glass-surface-high border border-white/10 hover:bg-white/10 hover:scale-[1.02] transition-all group">
+<span class="material-symbols-outlined text-3xl text-primary mb-3 group-hover:scale-110 transition-transform">add_moderator</span>
+<span class="text-xs font-bold">New Report</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 rounded-3xl glass-surface-high border border-white/10 hover:bg-white/10 hover:scale-[1.02] transition-all group">
+<span class="material-symbols-outlined text-3xl text-secondary mb-3 group-hover:scale-110 transition-transform">mic</span>
+<span class="text-xs font-bold">Analyze Audio</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 rounded-3xl glass-surface-high border border-white/10 hover:bg-white/10 hover:scale-[1.02] transition-all group">
+<span class="material-symbols-outlined text-3xl text-tertiary mb-3 group-hover:scale-110 transition-transform">barcode_scanner</span>
+<span class="text-xs font-bold">Scan Currency</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 rounded-3xl glass-surface-high border border-white/10 hover:bg-white/10 hover:scale-[1.02] transition-all group">
+<span class="material-symbols-outlined text-3xl text-primary mb-3 group-hover:scale-110 transition-transform">smart_toy</span>
+<span class="text-xs font-bold">Shield AI Chat</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Sidebar Content -->
+<div class="w-[320px] space-y-8">
+<!-- AI Recommendation Card -->
+<div class="glass-surface-high rounded-3xl p-6 border border-primary/20 relative overflow-hidden">
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 blur-3xl rounded-full"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h5 class="text-sm font-bold tracking-tight uppercase">AI Priority Shield</h5>
+</div>
+<p class="text-sm leading-relaxed mb-6 italic text-on-surface/90">"Based on your recent navigation to e-commerce sites, I recommend enabling 'Transaction Tunnel' protection for the next 24 hours."</p>
+<button class="w-full py-3 bg-primary-container text-white rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all hover:-translate-y-0.5">
+                                Enable Now
+                            </button>
+</div>
+</div>
+<!-- Recent Analysis History -->
+<div class="glass-surface rounded-3xl p-6">
+<h5 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-6">Recent Analysis</h5>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="w-1px bg-primary/20 relative shrink-0">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary ring-4 ring-primary/10"></div>
+</div>
+<div class="pb-1">
+<p class="text-xs text-on-surface-variant mb-1">Today, 09:12 AM</p>
+<p class="text-sm font-bold">Audio Sample #442</p>
+<p class="text-xs text-tertiary font-bold mt-1">99.2% Human Match</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-1px bg-white/10 relative shrink-0">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-white/20"></div>
+</div>
+<div class="pb-1">
+<p class="text-xs text-on-surface-variant mb-1">Yesterday, 11:45 PM</p>
+<p class="text-sm font-bold">Series A Banknote</p>
+<p class="text-xs text-tertiary font-bold mt-1">Verified Authentic</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-1px bg-white/10 relative shrink-0">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-white/20"></div>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant mb-1">Oct 24, 02:20 PM</p>
+<p class="text-sm font-bold">Inbound Call Tracer</p>
+<p class="text-xs text-error font-bold mt-1">Spoofed Location Found</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 text-xs font-bold text-on-surface-variant hover:text-white transition-colors flex items-center justify-center gap-1">
+                            View Full Archive <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+<!-- System Status Card -->
+<div class="glass-surface p-6 rounded-3xl">
+<h5 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Subsystem Load</h5>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-[10px] font-bold mb-1">
+<span>AI INFERENCE</span>
+<span>24%</span>
+</div>
+<div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+<div class="w-[24%] h-full bg-primary rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-bold mb-1">
+<span>NETWORK MASK</span>
+<span>78%</span>
+</div>
+<div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+<div class="w-[78%] h-full bg-tertiary rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Emergency Button -->
+<button class="fixed bottom-10 right-10 z-[100] w-20 h-20 rounded-full bg-error text-white emergency-glow flex flex-col items-center justify-center hover:scale-110 active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-3xl mb-0.5 group-hover:rotate-12 transition-transform" style="font-variation-settings: 'FILL' 1;">emergency_home</span>
+<span class="text-[10px] font-black uppercase leading-tight">Emergency</span>
+</button>
+<!-- AI Assistant Floating Bubble -->
+<div class="fixed bottom-10 right-36 z-[100] w-16 h-16 rounded-2xl glass-surface-high flex items-center justify-center border border-primary/30 group cursor-pointer hover:border-primary transition-all">
+<div class="absolute inset-0 rounded-2xl bg-primary/5 animate-pulse"></div>
+<span class="material-symbols-outlined text-primary text-2xl group-hover:scale-110 transition-transform">psychology</span>
+</div>
+<script>
+        // Micro-interactions and simple reactive effects
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.querySelectorAll('.kpi-glow');
+            glow.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Emergency button simple handler
+        const emergencyBtn = document.querySelector('.emergency-glow');
+        emergencyBtn.addEventListener('click', () => {
+            if(confirm('INITIATE EMERGENCY FRAUD PROTOCOL?\n\nThis will instantly alert regional law enforcement and freeze all registered digital assets for verification.')) {
+                alert('Protocol Initiated. Signal broadcasting...');
+            }
+        });
+    </script>
+</body></html>

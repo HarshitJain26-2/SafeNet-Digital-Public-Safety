@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeNet AI | API &amp; Integration Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(26, 32, 43, 0.4);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            background: rgba(26, 32, 43, 0.6);
+            border-color: rgba(180, 197, 255, 0.3);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(180, 197, 255, 0.2);
+            border-radius: 10px;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(78, 222, 163, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(78, 222, 163, 0.4); }
+        }
+        .status-active-glow {
+            animation: pulse-glow 2s infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#1a202b",
+                        "secondary": "#c3c0ff",
+                        "on-primary-container": "#eeefff",
+                        "tertiary": "#4edea3",
+                        "surface-tint": "#b4c5ff",
+                        "inverse-surface": "#dee2f3",
+                        "error": "#ffb4ab",
+                        "on-primary": "#002a78",
+                        "on-background": "#dee2f3",
+                        "primary-fixed": "#dbe1ff",
+                        "on-secondary-container": "#b3b1ff",
+                        "inverse-on-surface": "#2b303d",
+                        "surface-variant": "#2f3541",
+                        "on-tertiary": "#003824",
+                        "on-secondary": "#1d00a5",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "primary": "#b4c5ff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-surface": "#dee2f3",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface-container-high": "#252a36",
+                        "surface": "#0e131f",
+                        "on-tertiary-container": "#bdffdb",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#8d90a0",
+                        "tertiary-container": "#007d55",
+                        "surface-container-highest": "#2f3541",
+                        "on-secondary-fixed": "#0f0069",
+                        "on-surface-variant": "#c3c6d7",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-primary-fixed": "#00174b",
+                        "primary-container": "#2563eb",
+                        "secondary-container": "#3626ce",
+                        "background": "#0e131f",
+                        "surface-bright": "#343946",
+                        "tertiary-fixed": "#6ffbbe",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "outline-variant": "#434655",
+                        "surface-dim": "#0e131f",
+                        "surface-container-low": "#161c27",
+                        "on-tertiary-fixed": "#002113",
+                        "secondary-fixed": "#e2dfff",
+                        "surface-container-lowest": "#090e19",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "inverse-primary": "#0053db"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-desktop": "40px",
+                        "sidebar-width": "280px",
+                        "gutter": "24px",
+                        "container-padding-mobile": "20px",
+                        "top-nav-height": "72px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "mono-label": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="w-[280px] h-screen fixed left-0 top-0 bg-surface-container/10 dark:bg-surface-container/10 backdrop-blur-3xl border-r border-white/10 shadow-2xl flex flex-col py-8 overflow-hidden z-50" id="sidebar">
+<div class="px-8 mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary">SafeNet AI</h1>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-60">Super Admin Portal</p>
+</div>
+<nav class="flex-1 overflow-y-auto custom-scrollbar px-3 space-y-1">
+<!-- Navigation Items -->
+<a class="flex items-center gap-4 py-3 font-medium pl-5 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Executive Dashboard</span>
+</a>
+<!-- Active State Logic Applied: Integrations is the current context -->
+<a class="flex items-center gap-4 py-3 text-primary font-bold border-l-4 border-primary pl-4 bg-primary/10 transition-all duration-200 rounded-r-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">extension</span>
+<span>Integrations</span>
+</a>
+<a class="flex items-center gap-4 py-3 font-medium pl-5 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">api</span>
+<span>API Management</span>
+</a>
+<a class="flex items-center gap-4 py-3 font-medium pl-5 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">security_update_good</span>
+<span>Security Center</span>
+</a>
+<a class="flex items-center gap-4 py-3 font-medium pl-5 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span>Infrastructure Monitoring</span>
+</a>
+<div class="pt-6 pb-2 px-5 font-label-md text-label-md uppercase tracking-widest text-outline">System</div>
+<a class="flex items-center gap-4 py-3 font-medium pl-5 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-primary-container text-on-primary-container rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">psychology</span>
+                AI Insights
+            </button>
+</div>
+</aside>
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-[72px] bg-surface/10 dark:bg-surface/10 backdrop-blur-2xl border-b border-white/5 shadow-sm flex justify-between items-center px-10 z-40">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-black/20 border-white/10 rounded-full py-2 pl-12 pr-4 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Search API logs, keys, or endpoints..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="relative text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-white/10"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="font-label-md text-label-md font-bold text-on-surface">Optimal</p>
+<p class="text-[10px] text-tertiary">System Healthy</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary/20 group-hover:border-primary transition-all" data-alt="Close-up professional headshot of a cyber security expert, wearing a dark turtleneck against a background of glowing blue digital server matrices, cinematic lighting, sharp focus, high-end commercial photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzmWFonNT9NzGGv9hXgUlgX851VlEZ2M_6M2WcjX4XFuimqOCfJGn_zYsCEFc5GEg7ZZXZevTiUMwMXt-cbEIfd2mPMlJRRJ3LI2Y2D5o9PmaWxqlleVbTQNlQwphmP4HEWfXnd2wTCobsPl868GbwgbHG9pk54HmDLTJhZ222siFmkKWe7jbTASvKt5vfxoEPdWlX8vMZE1_ecNffdLChhdHPRhOF7rvf3HSbY1VoO2FkyY6sayNC0zHszv2dI16tiGRPFRrNMS4"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] pt-[72px] h-screen overflow-y-auto custom-scrollbar bg-[#060B16] relative">
+<!-- Background Animation Overlay -->
+
+<div class="max-w-7xl mx-auto p-10 relative z-10">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">API &amp; Integration Management</h2>
+<p class="text-on-surface-variant mt-2 font-body-md">Configure and monitor your AI models, cloud infrastructure, and third-party services.</p>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+                    Add New Key
+                </button>
+</div>
+<!-- Integration Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-12">
+<!-- Anthropic -->
+<div class="glass-card p-6 rounded-[20px] flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<span class="px-2 py-1 rounded bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase tracking-wider status-active-glow">Active</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Anthropic</h4>
+<p class="text-label-md text-outline">Claude 3.5 Sonnet</p>
+</div>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-label-md">
+<span class="text-outline">Latency</span>
+<span class="text-on-surface font-mono">1.2s</span>
+</div>
+</div>
+<!-- Google Gemini -->
+<div class="glass-card p-6 rounded-[20px] flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+<span class="material-symbols-outlined text-primary">cloud</span>
+</div>
+<span class="px-2 py-1 rounded bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase tracking-wider status-active-glow">Active</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Google</h4>
+<p class="text-label-md text-outline">Gemini 1.5 Pro</p>
+</div>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-label-md">
+<span class="text-outline">Latency</span>
+<span class="text-on-surface font-mono">0.8s</span>
+</div>
+</div>
+<!-- Supabase -->
+<div class="glass-card p-6 rounded-[20px] flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+<span class="material-symbols-outlined text-primary">database</span>
+</div>
+<span class="px-2 py-1 rounded bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider">Operational</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Supabase</h4>
+<p class="text-label-md text-outline">PostgreSQL Instance</p>
+</div>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-label-md">
+<span class="text-outline">Uptime</span>
+<span class="text-on-surface font-mono">99.99%</span>
+</div>
+</div>
+<!-- Twilio -->
+<div class="glass-card p-6 rounded-[20px] flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+<span class="material-symbols-outlined text-primary">sms</span>
+</div>
+<span class="px-2 py-1 rounded bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase tracking-wider">Active</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Twilio</h4>
+<p class="text-label-md text-outline">SMS Gateway</p>
+</div>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-label-md">
+<span class="text-outline">Success</span>
+<span class="text-on-surface font-mono">98.2%</span>
+</div>
+</div>
+<!-- Mapbox -->
+<div class="glass-card p-6 rounded-[20px] flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+<span class="material-symbols-outlined text-primary">map</span>
+</div>
+<span class="px-2 py-1 rounded bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase tracking-wider">Active</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Mapbox</h4>
+<p class="text-label-md text-outline">Geospatial Data</p>
+</div>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center text-label-md">
+<span class="text-outline">Usage</span>
+<span class="text-on-surface font-mono">4.2M req</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Usage Metrics & Key Management -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Key Management Section -->
+<section class="glass-card rounded-[24px] overflow-hidden">
+<div class="px-8 py-6 border-b border-white/5 flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Master API Keys</h3>
+<span class="text-label-md text-outline">Production Environment</span>
+</div>
+<div class="divide-y divide-white/5">
+<!-- Key Item -->
+<div class="px-8 py-6 flex items-center justify-between group">
+<div class="flex-1">
+<p class="text-on-surface font-bold text-body-md">Universal AI Proxy Key</p>
+<p class="text-label-md text-outline mt-1 font-mono">Created on Jan 12, 2024</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-black/40 px-4 py-2 rounded-lg border border-white/5 font-mono text-body-sm text-on-surface-variant flex items-center gap-3">
+<span>sk_live_••••••••••••••••3a9d</span>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">content_copy</span></button>
+</div>
+<button class="text-label-md font-bold text-primary hover:underline">Regenerate</button>
+</div>
+</div>
+<!-- Key Item -->
+<div class="px-8 py-6 flex items-center justify-between group">
+<div class="flex-1">
+<p class="text-on-surface font-bold text-body-md">Data Retrieval Analytics</p>
+<p class="text-label-md text-outline mt-1 font-mono">Created on Feb 05, 2024</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-black/40 px-4 py-2 rounded-lg border border-white/5 font-mono text-body-sm text-on-surface-variant flex items-center gap-3">
+<span>sk_test_••••••••••••••••f921</span>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">content_copy</span></button>
+</div>
+<button class="text-label-md font-bold text-primary hover:underline">Regenerate</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Webhook Management -->
+<section class="glass-card rounded-[24px] overflow-hidden">
+<div class="px-8 py-6 border-b border-white/5 flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Webhooks</h3>
+<button class="text-primary text-label-md font-bold flex items-center gap-1 hover:opacity-80">
+<span class="material-symbols-outlined text-[18px]">add_circle</span> Add Endpoint
+                            </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-white/5">
+<th class="px-8 py-4 font-label-md text-outline uppercase tracking-wider">Target Endpoint</th>
+<th class="px-8 py-4 font-label-md text-outline uppercase tracking-wider">Events</th>
+<th class="px-8 py-4 font-label-md text-outline uppercase tracking-wider">Status</th>
+<th class="px-8 py-4 font-label-md text-outline uppercase tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr>
+<td class="px-8 py-5">
+<p class="text-on-surface font-medium">https://api.safenet.ai/v1/alert-bridge</p>
+</td>
+<td class="px-8 py-5">
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded bg-white/10 text-[10px] text-on-surface-variant">CRIME_REPORT</span>
+<span class="px-2 py-0.5 rounded bg-white/10 text-[10px] text-on-surface-variant">AI_DETECT</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<span class="text-body-sm text-on-surface">Active</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="bg-white/5 hover:bg-white/10 text-on-surface-variant text-label-md font-bold px-4 py-2 rounded-lg transition-all active:scale-95">Test</button>
+</td>
+</tr>
+<tr>
+<td class="px-8 py-5">
+<p class="text-on-surface font-medium">https://integrations.ems-portal.gov/webhook</p>
+</td>
+<td class="px-8 py-5">
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded bg-white/10 text-[10px] text-on-surface-variant">SYSTEM_FAILURE</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<span class="text-body-sm text-on-surface">Active</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="bg-white/5 hover:bg-white/10 text-on-surface-variant text-label-md font-bold px-4 py-2 rounded-lg transition-all active:scale-95">Test</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Right Sidebar: Metrics & Performance -->
+<div class="space-y-8">
+<!-- Quota Consumption -->
+<div class="glass-card p-8 rounded-[24px]">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-6">Quota Consumption</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-label-md mb-2">
+<span class="text-on-surface-variant">Anthropic Tokens</span>
+<span class="text-on-surface font-bold">84%</span>
+</div>
+<div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[84%] rounded-full"></div>
+</div>
+<p class="text-[10px] text-outline mt-2 text-right">12.4M / 15M Tokens</p>
+</div>
+<div>
+<div class="flex justify-between text-label-md mb-2">
+<span class="text-on-surface-variant">Mapbox Tiles</span>
+<span class="text-on-surface font-bold">42%</span>
+</div>
+<div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[42%] rounded-full"></div>
+</div>
+<p class="text-[10px] text-outline mt-2 text-right">2.1M / 5M Loads</p>
+</div>
+<div>
+<div class="flex justify-between text-label-md mb-2">
+<span class="text-on-surface-variant">Twilio Credits</span>
+<span class="text-on-surface font-bold">12%</span>
+</div>
+<div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[12%] rounded-full"></div>
+</div>
+<p class="text-[10px] text-outline mt-2 text-right">$120 / $1000</p>
+</div>
+</div>
+</div>
+<!-- Trends -->
+<div class="glass-card p-8 rounded-[24px]">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-6">Service Health</h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">timer</span>
+<div>
+<p class="text-label-md text-outline">Avg. Latency</p>
+<p class="text-body-md font-bold text-on-surface">324ms</p>
+</div>
+</div>
+<div class="text-tertiary text-[10px] font-bold">-12% ▼</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">error</span>
+<div>
+<p class="text-label-md text-outline">Error Rate</p>
+<p class="text-body-md font-bold text-on-surface">0.04%</p>
+</div>
+</div>
+<div class="text-tertiary text-[10px] font-bold">-2% ▼</div>
+</div>
+</div>
+<!-- Mini Chart Placeholder -->
+<div class="mt-8 h-32 relative overflow-hidden rounded-xl bg-black/20">
+<div class="absolute inset-x-0 bottom-0 flex items-end gap-1 px-4 pb-4 h-full">
+<div class="flex-1 bg-primary/20 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[55%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[70%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/60 h-[85%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[65%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/80 h-[95%] rounded-t-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- AI Assistant Floating Action -->
+<button class="fixed bottom-10 right-10 w-16 h-16 bg-primary-container text-on-primary-container rounded-full shadow-2xl flex items-center justify-center group hover:scale-110 active:scale-95 transition-all z-50 border border-white/20 backdrop-blur-md">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-12 transition-transform" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<div class="absolute -inset-1 rounded-full bg-primary/20 animate-ping pointer-events-none opacity-50"></div>
+</button>
+<script>
+        // Simple micro-interactions for the UI
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Potential for adding dynamic glow tracking if desired
+            });
+        });
+
+        // Toggle Key Visibility Mockup
+        document.querySelectorAll('button:has(.material-symbols-outlined:contains("content_copy"))').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const originalText = e.currentTarget.innerHTML;
+                e.currentTarget.innerHTML = '<span class="material-symbols-outlined text-[18px] text-tertiary">check</span>';
+                setTimeout(() => {
+                    e.currentTarget.innerHTML = originalText;
+                }, 1500);
+            });
+        });
+
+        // Test Webhook Mockup
+        document.querySelectorAll('button:contains("Test")').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const row = e.currentTarget.closest('tr');
+                const originalContent = e.currentTarget.innerText;
+                e.currentTarget.innerText = 'Pinging...';
+                e.currentTarget.classList.add('animate-pulse');
+                
+                setTimeout(() => {
+                    e.currentTarget.innerText = '200 OK';
+                    e.currentTarget.classList.remove('animate-pulse');
+                    e.currentTarget.classList.add('bg-tertiary/20', 'text-tertiary');
+                    
+                    setTimeout(() => {
+                        e.currentTarget.innerText = originalContent;
+                        e.currentTarget.classList.remove('bg-tertiary/20', 'text-tertiary');
+                    }, 2000);
+                }, 1200);
+            });
+        });
+    </script>
+</body></html>

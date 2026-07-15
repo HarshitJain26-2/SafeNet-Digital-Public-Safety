@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeNet AI | Officer Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-surface {
+            background: rgba(14, 19, 31, 0.08);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(14, 19, 31, 0.12);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .active-glow {
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+        }
+        body {
+            background-color: #060B16;
+            color: #dee2f3;
+            overflow-x: hidden;
+        }
+        /* Custom scrollbar for glassmorphism */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#003824",
+                        "surface-container-lowest": "#090e19",
+                        "surface-container-high": "#252a36",
+                        "on-surface": "#dee2f3",
+                        "background": "#0e131f",
+                        "on-background": "#dee2f3",
+                        "surface-container": "#1a202b",
+                        "on-secondary": "#1d00a5",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-surface-variant": "#c3c6d7",
+                        "on-tertiary-fixed": "#002113",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "outline-variant": "#434655",
+                        "on-primary-container": "#eeefff",
+                        "primary-container": "#2563eb",
+                        "secondary-container": "#3626ce",
+                        "on-secondary-fixed": "#0f0069",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "surface-container-low": "#161c27",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-dim": "#0e131f",
+                        "secondary-fixed": "#e2dfff",
+                        "on-secondary-container": "#b3b1ff",
+                        "secondary": "#c3c0ff",
+                        "on-primary": "#002a78",
+                        "on-tertiary-container": "#bdffdb",
+                        "surface-container-highest": "#2f3541",
+                        "outline": "#8d90a0",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "inverse-on-surface": "#2b303d",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface": "#0e131f",
+                        "on-primary-fixed": "#00174b",
+                        "tertiary-container": "#007d55",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-variant": "#2f3541",
+                        "primary": "#b4c5ff",
+                        "surface-tint": "#b4c5ff",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "inverse-surface": "#dee2f3",
+                        "tertiary": "#4edea3",
+                        "surface-bright": "#343946",
+                        "tertiary-fixed": "#6ffbbe",
+                        "inverse-primary": "#0053db",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "top-nav-height": "72px",
+                        "container-padding-desktop": "40px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "sidebar-width": "280px",
+                        "container-padding-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "mono-label": ["JetBrains Mono"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "mono-label": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface/80 backdrop-blur-3xl border-r border-white/10 shadow-2xl flex flex-col py-8 px-4 z-50">
+<div class="mb-10 px-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SafeNet AI</h1>
+<p class="text-on-surface-variant text-body-sm opacity-60">Intelligence Ops</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-body-md text-body-md">Citizen Shield</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-primary font-bold border-r-2 border-primary bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<span class="font-body-md text-body-md">Admin</span>
+</a>
+<!-- Active Indicator for "Admin/Officer Management" mapping -->
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Currency Detector</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">settings_phone</span>
+<span class="font-body-md text-body-md">Call Analyzer</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-body-md text-body-md">Network Graph</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-body-md text-body-md">Heatmap</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-4 glass-surface rounded-xl border border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/30">
+<img class="w-full h-full object-cover" data-alt="A portrait of a high-ranking intelligence officer, professional and stern, wearing a dark navy futuristic tactical uniform with subtle digital insignias. The lighting is cinematic with a blue tint, reflecting a cyber-security command center environment. The composition is a sharp headshot with a blurred high-tech background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7UovCPuF5JBfVUvJyzHBk5tyloBbxu3eVNNeFp2AXHkJTi9wzMAnXgvh6WHOQ_wkMX_h8W5n_C-hOzKQPU0yBWiTsLxkt_azzrcUsVAWkRBbG3Lvx-IDul67Ii3CUblnB8bBHK1TLmTop4zzcbqJ_bP0vYTjdeM32ZO9Ter1T0SXvqStHbI9Z4wP0Mi79rv0uDKzgOccnq5vpicAMIO-4p7yHgLLdyTgkh5sgNY7A1EKw4WEtjv4LixoNt9m9dClkv7WrUygxI50"/>
+</div>
+<div>
+<p class="text-body-sm font-bold">Chief Miller</p>
+<p class="text-[10px] text-primary uppercase tracking-widest">Ops Commander</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Authority: JSON) -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-[72px] bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-10 z-40">
+<div class="flex items-center gap-8">
+<h2 class="font-headline-sm text-headline-sm font-black text-on-surface tracking-tight">Officer Management</h2>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="bg-black/20 border border-white/10 rounded-full py-2 pl-10 pr-4 text-body-sm focus:outline-none focus:border-primary w-64 transition-all" placeholder="Search Shield ID or Name..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-white/10"></div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">person_add</span>
+                ENLIST OFFICER
+            </button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[280px] mt-[72px] p-10 w-full grid grid-cols-12 gap-6">
+<!-- Directory Filters -->
+<div class="col-span-12 flex items-center justify-between mb-2">
+<div class="flex gap-4">
+<button class="glass-surface px-4 py-2 rounded-lg text-label-md font-label-md border border-primary/40 text-primary bg-primary/10">All Personnel</button>
+<button class="glass-surface px-4 py-2 rounded-lg text-label-md font-label-md text-on-surface-variant hover:border-white/20">Cyber Crimes</button>
+<button class="glass-surface px-4 py-2 rounded-lg text-label-md font-label-md text-on-surface-variant hover:border-white/20">Field Ops</button>
+<button class="glass-surface px-4 py-2 rounded-lg text-label-md font-label-md text-on-surface-variant hover:border-white/20">Intelligence</button>
+</div>
+<div class="flex gap-2 items-center text-on-surface-variant font-label-md text-label-md">
+<span>SORT BY:</span>
+<select class="bg-transparent border-none focus:ring-0 text-primary cursor-pointer">
+<option>Performance</option>
+<option>Rank</option>
+<option>Response Time</option>
+</select>
+</div>
+</div>
+<!-- Officer Bento Grid -->
+<div class="col-span-8 grid grid-cols-2 gap-6">
+<!-- Officer Card 1 -->
+<div class="glass-card p-6 rounded-[20px] hover:bg-white/5 transition-all group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-tertiary-container/20 text-tertiary text-[10px] px-2 py-1 rounded border border-tertiary/30 font-bold tracking-widest">ACTIVE</span>
+</div>
+<div class="flex items-start gap-4 mb-6">
+<div class="w-16 h-16 rounded-xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of a female intelligence analyst in her late 20s, featuring sharp features and focused eyes. She is wearing a modern tactical headset and a high-collared techwear jacket. The background consists of glowing digital data streams and holographic maps in a dark cybernetic office setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbA5kgauaw62CMzMeQACY-6dGFlZXqBGvDwQbmL96G54y79Snz-ujqhlSRaDk2qUg3eAWnIJct-q-Y3IMjfce_KP_HWItzN_cxU-QIqcPOYoPNLtKYl2u6iFK80zl68cXD1p8QgxewTJaAYanRMeii8F28vjhRPxMakMoSVe7wfBwcN1RyhPq7KKAt1SlPZvucK3tSs-w0GWY1-GmEHti-I1WsGnJqHaqozP0XSx_--cO6dMAE8czi9TWG8wcvCjHc3KMf49NNP7M"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm">Det. Sarah Vance</h3>
+<p class="text-primary font-mono-label text-mono-label">ID: SN-8842-INTEL</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-xs text-secondary" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="text-label-md font-label-md text-secondary uppercase tracking-tighter">Senior Analyst</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Success Rate</p>
+<p class="text-xl font-bold text-tertiary">94.2%</p>
+</div>
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Resp. Time</p>
+<p class="text-xl font-bold text-on-surface">12.4m</p>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Active Cases: 14</span>
+<button class="text-primary font-bold hover:underline flex items-center gap-1">
+                        View Dossier <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Officer Card 2 -->
+<div class="glass-card p-6 rounded-[20px] hover:bg-white/5 transition-all group cursor-pointer border-primary/30 bg-white/5 ring-1 ring-primary/20 active-glow">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-primary-container/20 text-primary text-[10px] px-2 py-1 rounded border border-primary/30 font-bold tracking-widest">SELECTED</span>
+</div>
+<div class="flex items-start gap-4 mb-6">
+<div class="w-16 h-16 rounded-xl overflow-hidden border border-primary/50 transition-colors">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male field officer in his 40s with a rugged look and short-cropped graying hair. He is wearing a heavy-duty tactical vest with various gadgets and a shoulder patch that glows with a blue lion crest. The lighting is harsh and dramatic, suggesting a rainy night in a futuristic metropolis." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhgqKJ7Az8NtU76O-Be7HAbHP0DmL1e0YYFCBlZxXyHVvmiJACNc4wRghJlZPgzTeoZ40cRxUh2Aea2LjNBdKT7m-K0fKZZaqRdPJXNV-wL6SEjmIHY9zM4SVzhuytjGARMleFd__sX0g0a1wRTIJxKLmMDN23PREuPMT42qWga3Eu-o2LA6E4LEAVEhtXLpNuPncMLbx9-2smGus0BV7Kfk-ktBJfFlT0ocHQrtazqft7ZUa8J0zpsojxy97JYQclLqKjy2GmBxM"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm">Sgt. Marcus Thorne</h3>
+<p class="text-primary font-mono-label text-mono-label">ID: SN-1290-FIELD</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-xs text-secondary" style="font-variation-settings: 'FILL' 1;">shield</span>
+<span class="text-label-md font-label-md text-secondary uppercase tracking-tighter">Tactical Lead</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Success Rate</p>
+<p class="text-xl font-bold text-tertiary">88.5%</p>
+</div>
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Resp. Time</p>
+<p class="text-xl font-bold text-on-surface">4.8m</p>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Active Cases: 8</span>
+<button class="text-primary font-bold flex items-center gap-1">
+                        View Dossier <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Officer Card 3 -->
+<div class="glass-card p-6 rounded-[20px] hover:bg-white/5 transition-all group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-on-surface-variant/20 text-on-surface-variant text-[10px] px-2 py-1 rounded border border-white/10 font-bold tracking-widest">OFF-DUTY</span>
+</div>
+<div class="flex items-start gap-4 mb-6">
+<div class="w-16 h-16 rounded-xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors opacity-60">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male cyber-specialist wearing digital eye-wear with glowing green interfaces. He has a focused expression and is wearing a dark, sleek jumpsuit with fiber-optic piping. The background is a dense grid of neon green server racks and pulsing network cables." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtSy7Jxlh4RYllWLBOBWi6BamNXJuoDOQKw6-PwuG8P5BzgqNmU3we8-FIPyciPpnaKbVyxkigwctN0zjk7YkGLAc3_JcMhl5s98lYtJO9IPU8gWm6gLIHk-_n63_DGbdaHwuFRZ36OJt31aTyYk4X5inpCU4DVOFRLn9mLEk7YDrCd6AoqYMU2tdWlU3IeMGwhQEKCcosPqgdxPwge7oD6FQhnjuxnVwGiTrC_xXvuUNdfG-O72VyD9X8PxbvRzBGTiVMw0l1o3k"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm opacity-60">Cpt. Elena Rossi</h3>
+<p class="text-primary font-mono-label text-mono-label opacity-60">ID: SN-3301-CYBER</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-xs text-secondary" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="text-label-md font-label-md text-secondary uppercase tracking-tighter">Cyber Commander</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 opacity-60">
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Success Rate</p>
+<p class="text-xl font-bold text-tertiary">91.0%</p>
+</div>
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Resp. Time</p>
+<p class="text-xl font-bold text-on-surface">15.2m</p>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Active Cases: 0</span>
+<button class="text-primary font-bold flex items-center gap-1">
+                        View Dossier <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Officer Card 4 -->
+<div class="glass-card p-6 rounded-[20px] hover:bg-white/5 transition-all group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-error/20 text-error text-[10px] px-2 py-1 rounded border border-error/30 font-bold tracking-widest">ON LEAVE</span>
+</div>
+<div class="flex items-start gap-4 mb-6">
+<div class="w-16 h-16 rounded-xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-colors opacity-60">
+<img class="w-full h-full object-cover" data-alt="A portrait of a distinguished older officer with white hair and a kind but firm expression. He is dressed in a formal command uniform with multiple silver medals on the chest. The setting is a bright, high-ceilinged hall with grand windows overlooking a futuristic city skyline at sunrise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACjr20-Xfy5n9UpRcHRh19kaWPMa5n8LeygvBX_qDx7xTYahwGRNQhHcDXZatOZyaxaWZK9qoNSjCS50GUaOCEX5lnl7tkn6cDk6_gs2YlTpSGVdRGAdjglmjBsVGKiP__eyn7jxaStHmQF6Rg-3AdlWgtgaUUYlT0T_cXGnvDbi7k_3lsOJJZWyxrSX1sUD9ibrK6E4GUkyCvUbboNNrolZyvowZtdLaLuO__iQqdWG256gs_VUghD3KONRL5KJrjXEUR3oHBj4M"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm opacity-60">Insp. David Kim</h3>
+<p class="text-primary font-mono-label text-mono-label opacity-60">ID: SN-4422-STRAT</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-xs text-secondary" style="font-variation-settings: 'FILL' 1;">policy</span>
+<span class="text-label-md font-label-md text-secondary uppercase tracking-tighter">Strategist</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 opacity-60">
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Success Rate</p>
+<p class="text-xl font-bold text-tertiary">97.8%</p>
+</div>
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Resp. Time</p>
+<p class="text-xl font-bold text-on-surface">22.0m</p>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Active Cases: 2</span>
+<button class="text-primary font-bold flex items-center gap-1">
+                        View Dossier <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Detail Profile View (Right Panel) -->
+<div class="col-span-4 space-y-6">
+<div class="glass-card rounded-[24px] p-8 border-primary/20 sticky top-[96px]">
+<div class="flex flex-col items-center text-center mb-8">
+<div class="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/20 mb-4 relative">
+<img class="w-full h-full object-cover" data-alt="Detailed close-up portrait of Marcus Thorne, showing high-definition skin textures, blue digital retinal interface reflection in his eyes, and the metallic collar of his tactical gear. Lighting is side-lit, dramatic, with deep shadows and vibrant blue highlights consistent with a tech-noir thriller aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn0VAXoruxuqDdeYIH1KTqwR6w5vp2aGSnlV6iNm9gVjIbPPTpIu_EB25IjGHWVqm-m_INOkJ_LXZ3oj0H3u7o2ymIk2Q-oRNqLWiQZMdSDi9k27AESlnCtkyCuyWM9wnbACg_yXMO_3rpD2R2cAyksEV8jK7x_DgLWVnI-TMKwD391zKUtv6AP2TJJj9cc8ZePicySM9b009W6C_KjugLaJKHjC6tsa0L2rVdOW9YULurQFPXtYUH54HCdu783lCzImBmD8XlLAA"/>
+<div class="absolute bottom-0 right-0 bg-tertiary w-8 h-8 rounded-full border-4 border-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md mb-1">Marcus Thorne</h2>
+<p class="text-primary font-mono-label tracking-widest uppercase text-xs mb-4">Shield Status: Prime Authorized</p>
+<div class="flex gap-2">
+<span class="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-label-md font-label-md">FIELD OPS</span>
+<span class="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-label-md font-label-md">LVL 5 ACCESS</span>
+</div>
+</div>
+<div class="space-y-6">
+<section>
+<h4 class="text-label-md font-label-md text-on-surface-variant uppercase mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">folder_open</span>
+                            Active Caseload (8)
+                        </h4>
+<div class="space-y-2">
+<div class="bg-white/5 p-3 rounded-lg flex items-center justify-between hover:bg-white/10 transition-colors cursor-pointer border border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="text-body-sm font-medium">Cyber-Heist 404</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">PRIORITY H</span>
+</div>
+<div class="bg-white/5 p-3 rounded-lg flex items-center justify-between hover:bg-white/10 transition-colors cursor-pointer border border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-body-sm font-medium">Narcotics Trace</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">PRIORITY M</span>
+</div>
+<div class="bg-white/5 p-3 rounded-lg flex items-center justify-between hover:bg-white/10 transition-colors cursor-pointer border border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<span class="text-body-sm font-medium">Asset Protection</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">PRIORITY L</span>
+</div>
+</div>
+</section>
+<section>
+<h4 class="text-label-md font-label-md text-on-surface-variant uppercase mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">vpn_key</span>
+                            Permissions Level
+                        </h4>
+<div class="flex flex-wrap gap-2">
+<span class="text-[10px] font-bold px-2 py-1 bg-primary/10 border border-primary/30 rounded text-primary">BIO-METRIC SCAN</span>
+<span class="text-[10px] font-bold px-2 py-1 bg-primary/10 border border-primary/30 rounded text-primary">ARMORY ACCESS</span>
+<span class="text-[10px] font-bold px-2 py-1 bg-primary/10 border border-primary/30 rounded text-primary">SATELLITE INTEL</span>
+<span class="text-[10px] font-bold px-2 py-1 opacity-40 border border-white/10 rounded text-on-surface-variant">K-9 UNIT</span>
+</div>
+</section>
+<div class="pt-4 border-t border-white/10 flex gap-4">
+<button class="flex-1 bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:scale-[1.02] transition-transform active:scale-[0.98]">MODIFY PERMISSIONS</button>
+<button class="w-12 h-12 glass-surface flex items-center justify-center rounded-xl hover:bg-white/10">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- AI Assistant Floating Bubble (Global) -->
+<div class="fixed bottom-10 right-10 z-[100]">
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/20 blur-xl rounded-full group-hover:bg-primary/40 transition-all animate-pulse"></div>
+<button class="relative w-16 h-16 glass-card rounded-full border border-primary/30 flex items-center justify-center text-primary active-glow">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</button>
+<div class="absolute bottom-20 right-0 w-64 glass-card p-4 rounded-2xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all pointer-events-none border-primary/20">
+<p class="text-label-md font-label-md text-primary mb-1">SAFE-AI INSIGHT</p>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">Sgt. Thorne's response time improved by 14% this week. Recommend promotion review.</p>
+</div>
+</div>
+</div>
+<!-- Navigation Drawer (Authority: JSON - Notification Center) -->
+<div class="fixed right-0 top-0 h-full w-[400px] bg-surface-container-high/90 backdrop-blur-2xl border-l border-white/15 shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col p-6 z-[100] translate-x-full transition-transform duration-300 ease-in-out" id="drawer">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Alert Center</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Real-time Intelligence</p>
+</div>
+<button class="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center" onclick="document.getElementById('drawer').classList.add('translate-x-full')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-4 overflow-y-auto">
+<!-- Alerts (from JSON mapping) -->
+<div class="bg-primary-container text-on-primary-container p-4 rounded-lg flex gap-4">
+<span class="material-symbols-outlined">warning</span>
+<div>
+<p class="text-label-md font-bold uppercase">Threat Alert</p>
+<p class="text-body-sm">Unidentified drone detected in Sector 7. Scrambling interceptors.</p>
+</div>
+</div>
+<div class="glass-surface p-4 rounded-lg flex gap-4 border-white/10">
+<span class="material-symbols-outlined text-tertiary">dns</span>
+<div>
+<p class="text-label-md font-bold uppercase text-on-surface">System Status</p>
+<p class="text-body-sm text-on-surface-variant">Mainframe synchronization at 99.8% stability.</p>
+</div>
+</div>
+<div class="glass-surface p-4 rounded-lg flex gap-4 border-white/10">
+<span class="material-symbols-outlined text-secondary">rss_feed</span>
+<div>
+<p class="text-label-md font-bold uppercase text-on-surface">Intel Feed</p>
+<p class="text-body-sm text-on-surface-variant">New decrypt protocol received from HQ Command.</p>
+</div>
+</div>
+</div>
+</div>
+<script>
+        // Simple Interaction logic
+        const notifyBtn = document.querySelector('button .material-symbols-outlined:contains("notifications")');
+        // Since we can't use :contains easily in vanilla, we target the index or query
+        document.querySelectorAll('header button').forEach(btn => {
+            if(btn.innerHTML.includes('notifications')) {
+                btn.onclick = () => {
+                    document.getElementById('drawer').classList.remove('translate-x-full');
+                }
+            }
+        });
+
+        // Hover effect enhancement for glass cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+                card.style.background = `radial-gradient(400px circle at ${x}px ${y}px, rgba(37, 99, 235, 0.05), transparent 80%), rgba(14, 19, 31, 0.12)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.background = `rgba(14, 19, 31, 0.12)`;
+            });
+        });
+    </script>
+</body></html>

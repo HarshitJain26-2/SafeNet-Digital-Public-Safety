@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #060B16;
+            color: #dee2f3;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-surface {
+            background: rgba(26, 32, 43, 0.08);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-surface-high {
+            background: rgba(26, 32, 43, 0.12);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .primary-glow {
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom Scrollbar for the long sidenav */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .nav-active {
+            text-shadow: 0 0 8px rgba(180, 197, 255, 0.5);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#1a202b",
+                        "secondary": "#c3c0ff",
+                        "on-primary-container": "#eeefff",
+                        "tertiary": "#4edea3",
+                        "surface-tint": "#b4c5ff",
+                        "inverse-surface": "#dee2f3",
+                        "error": "#ffb4ab",
+                        "on-primary": "#002a78",
+                        "on-background": "#dee2f3",
+                        "primary-fixed": "#dbe1ff",
+                        "on-secondary-container": "#b3b1ff",
+                        "inverse-on-surface": "#2b303d",
+                        "surface-variant": "#2f3541",
+                        "on-tertiary": "#003824",
+                        "on-secondary": "#1d00a5",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "primary": "#b4c5ff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-surface": "#dee2f3",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface-container-high": "#252a36",
+                        "surface": "#0e131f",
+                        "on-tertiary-container": "#bdffdb",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#8d90a0",
+                        "tertiary-container": "#007d55",
+                        "surface-container-highest": "#2f3541",
+                        "on-secondary-fixed": "#0f0069",
+                        "on-surface-variant": "#c3c6d7",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-primary-fixed": "#00174b",
+                        "primary-container": "#2563eb",
+                        "secondary-container": "#3626ce",
+                        "background": "#0e131f",
+                        "surface-bright": "#343946",
+                        "tertiary-fixed": "#6ffbbe",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "outline-variant": "#434655",
+                        "surface-dim": "#0e131f",
+                        "surface-container-low": "#161c27",
+                        "on-tertiary-fixed": "#002113",
+                        "secondary-fixed": "#e2dfff",
+                        "surface-container-lowest": "#090e19",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "inverse-primary": "#0053db"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "mono-label": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "mono-label": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background">
+<!-- SideNavBar (Fixed) -->
+<aside class="w-[280px] h-screen fixed left-0 top-0 bg-surface-container/10 backdrop-blur-3xl border-r border-white/10 shadow-2xl flex flex-col py-8 overflow-y-auto z-50">
+<div class="px-8 mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SafeNet AI</h1>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-widest mt-1">Super Admin Portal</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<!-- Nav Items Mapping -->
+<a class="flex items-center gap-4 py-3 px-5 text-on-surface-variant font-medium hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-[22px]">dashboard</span>
+<span class="font-body-md text-body-md">Executive Dashboard</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-5 text-on-surface-variant font-medium hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-[22px]">person</span>
+<span class="font-body-md text-body-md">Citizens</span>
+</a>
+<!-- Active State for AI Model Management -->
+<a class="flex items-center gap-4 py-3 pl-4 text-primary font-bold border-l-4 border-primary bg-primary/10 transition-all duration-200 rounded-r-xl nav-active" href="#">
+<span class="material-symbols-outlined text-[22px]">psychology</span>
+<span class="font-body-md text-body-md">AI Model Management</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-5 text-on-surface-variant font-medium hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-[22px]">local_police</span>
+<span class="font-body-md text-body-md">Officers</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-5 text-on-surface-variant font-medium hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-[22px]">description</span>
+<span class="font-body-md text-body-md">Complaints</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-5 text-on-surface-variant font-medium hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-[22px]">search_check</span>
+<span class="font-body-md text-body-md">Investigations</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-5 text-on-surface-variant font-medium hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-[22px]">map</span>
+<span class="font-body-md text-body-md">Crime Heatmap</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-5 text-on-surface-variant font-medium hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-[22px]">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-5 text-on-surface-variant font-medium hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-[22px]">security</span>
+<span class="font-body-md text-body-md">Security Center</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-5 text-on-surface-variant font-medium hover:bg-white/5 hover:text-primary transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-[22px]">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-6 pt-6">
+<button class="w-full py-4 bg-primary-container text-on-primary-container font-bold rounded-2xl flex items-center justify-center gap-2 primary-glow hover:brightness-110 transition-all active:scale-95">
+<span class="material-symbols-outlined">auto_awesome</span>
+                AI Insights
+            </button>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-[72px] bg-surface/10 backdrop-blur-2xl border-b border-white/5 shadow-sm flex justify-between items-center px-10 z-40">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-white/5 w-96">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-full text-on-surface" placeholder="Search models, logs, or metrics..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-80 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-white/10"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface font-bold">Admin Portal</p>
+<p class="text-[10px] text-tertiary font-bold tracking-widest uppercase">Optimal</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional high-fidelity portrait of a cyber security expert wearing a minimalist headset, set against a dark background with subtle neon blue highlights and a high-tech interface reflection in their glasses. The lighting is dramatic and cinematic, emphasizing a futuristic command center aesthetic with deep navy and cool white tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACHj-3KVsId3MPfllbFka0zzxmJZR9pEWlU9Lu_NtSMNs0nHe0kikBubbkz464HIZwiMQXI1u80ICYpqCOsJv45OI56-5cPWQ8Cowa-vPBu15a9nZttus2G93kYLmXCvkxh1BirloS5WTb-1fZn6zFWGUuLzsCTyDIyIhzO-ghPLSD4i_PEbfthMnAEYYbmF9jvx4bZsukTTDVpt6oMRY_WuweLrB6rDUh3_ESnP4dmMTjM6FmBkJBxB5U81zJ8OmaGOjKYt8_taQ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] pt-[72px] min-h-screen p-10 relative overflow-hidden">
+<!-- Ambient Background Decoration -->
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] -z-10 rounded-full"></div>
+<div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-tertiary/5 blur-[100px] -z-10 rounded-full"></div>
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">AI Model Management</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2 max-w-2xl">Monitor neural core health, manage deployment pipelines, and analyze performance benchmarks for the SafeNet intelligence engine.</p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-3 rounded-xl font-bold flex items-center gap-2 primary-glow hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined">rocket_launch</span>
+                    Deploy New Model
+                </button>
+</div>
+<!-- Dashboard Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Accuracy Trend -->
+<div class="col-span-1 md:col-span-2 glass-surface p-6 rounded-[24px] relative overflow-hidden h-64">
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">AVERAGE CORE ACCURACY</p>
+<h3 class="font-display-lg text-[40px] text-on-surface">99.4%</h3>
+</div>
+<span class="text-tertiary font-bold text-label-md flex items-center bg-tertiary/10 px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span>
+                                +0.8%
+                            </span>
+</div>
+<!-- Mini Trend Placeholder -->
+<div class="w-full h-24 mt-4 flex items-end gap-1">
+<div class="bg-primary/20 hover:bg-primary w-full h-[60%] transition-all cursor-pointer rounded-t-sm"></div>
+<div class="bg-primary/20 hover:bg-primary w-full h-[65%] transition-all cursor-pointer rounded-t-sm"></div>
+<div class="bg-primary/20 hover:bg-primary w-full h-[62%] transition-all cursor-pointer rounded-t-sm"></div>
+<div class="bg-primary/20 hover:bg-primary w-full h-[70%] transition-all cursor-pointer rounded-t-sm"></div>
+<div class="bg-primary/20 hover:bg-primary w-full h-[85%] transition-all cursor-pointer rounded-t-sm"></div>
+<div class="bg-primary/20 hover:bg-primary w-full h-[80%] transition-all cursor-pointer rounded-t-sm"></div>
+<div class="bg-primary/20 hover:bg-primary w-full h-[95%] transition-all cursor-pointer rounded-t-sm"></div>
+<div class="bg-primary/20 hover:bg-primary w-full h-[90%] transition-all cursor-pointer rounded-t-sm"></div>
+<div class="bg-primary/20 hover:bg-primary w-full h-[88%] transition-all cursor-pointer rounded-t-sm"></div>
+<div class="bg-primary/20 hover:bg-primary w-full h-[100%] transition-all cursor-pointer rounded-t-sm"></div>
+</div>
+</div>
+</div>
+<!-- Latency Stats -->
+<div class="glass-surface p-6 rounded-[24px] flex flex-col justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">AVG. LATENCY</p>
+<h3 class="font-headline-lg text-headline-lg text-primary">12ms</h3>
+</div>
+<div class="h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[35%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant">System threshold: 50ms</p>
+</div>
+<!-- Active Models -->
+<div class="glass-surface p-6 rounded-[24px] flex flex-col justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">DEPLOYED CORES</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">3</h3>
+</div>
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center text-[10px] font-bold">V4</div>
+<div class="w-8 h-8 rounded-full bg-tertiary/20 border border-tertiary/50 flex items-center justify-center text-[10px] font-bold">VS</div>
+<div class="w-8 h-8 rounded-full bg-secondary/20 border border-secondary/50 flex items-center justify-center text-[10px] font-bold">VC</div>
+</div>
+<p class="text-[10px] text-tertiary font-bold">ALL SYSTEMS NOMINAL</p>
+</div>
+</div>
+<!-- Model Inventory Table Container -->
+<div class="glass-surface-high rounded-[24px] overflow-hidden">
+<div class="px-8 py-6 border-b border-white/10 flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Model Inventory</h3>
+<div class="flex gap-2">
+<button class="p-2 glass-surface rounded-lg hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+<button class="p-2 glass-surface rounded-lg hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-white/5">
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Model Name</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Metrics (Acc/P/R/F1)</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Performance</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Sentinel-v4.0 -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">shield_moon</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">Sentinel-v4.0</p>
+<p class="text-[11px] text-on-surface-variant font-mono-label uppercase">Production Core • v4.0.12</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex gap-4">
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">Acc</p>
+<p class="font-mono-label text-primary font-bold">99.4%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">Pre</p>
+<p class="font-mono-label text-on-surface">98.9%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">Rec</p>
+<p class="font-mono-label text-on-surface">99.1%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">F1</p>
+<p class="font-mono-label text-on-surface">99.0%</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div>
+<p class="text-body-sm text-on-surface font-medium">8ms latency</p>
+<p class="text-[11px] text-tertiary">0.04s inference</p>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex flex-col gap-1">
+<span class="flex items-center gap-2 text-tertiary font-bold text-[11px] uppercase tracking-widest">
+<span class="w-2 h-2 bg-tertiary rounded-full animate-pulse"></span>
+                                            Active / Optimal
+                                        </span>
+<span class="text-[10px] text-on-surface-variant">Last Trained: 2h ago</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="flex justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded-lg border border-white/10 text-[11px] font-bold hover:bg-white/5 transition-all">LOGS</button>
+<button class="px-3 py-1.5 rounded-lg border border-white/10 text-[11px] font-bold hover:bg-white/5 transition-all">ROLLBACK</button>
+<button class="px-3 py-1.5 rounded-lg bg-error/10 text-error border border-error/20 text-[11px] font-bold hover:bg-error/20 transition-all">DISABLE</button>
+</div>
+</td>
+</tr>
+<!-- Voice-Scan-L2 -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">record_voice_over</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">Voice-Scan-L2</p>
+<p class="text-[11px] text-on-surface-variant font-mono-label uppercase">Signal Analysis • v2.1.0</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex gap-4">
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">Acc</p>
+<p class="font-mono-label text-primary font-bold">96.8%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">Pre</p>
+<p class="font-mono-label text-on-surface">94.2%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">Rec</p>
+<p class="font-mono-label text-on-surface">95.5%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">F1</p>
+<p class="font-mono-label text-on-surface">94.8%</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div>
+<p class="text-body-sm text-on-surface font-medium">114ms latency</p>
+<p class="text-[11px] text-on-surface-variant">0.45s inference</p>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex flex-col gap-1">
+<span class="flex items-center gap-2 text-primary font-bold text-[11px] uppercase tracking-widest">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+                                            Active / Idle
+                                        </span>
+<span class="text-[10px] text-on-surface-variant">Last Trained: 14d ago</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="flex justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded-lg border border-white/10 text-[11px] font-bold hover:bg-white/5 transition-all">LOGS</button>
+<button class="px-3 py-1.5 rounded-lg border border-white/10 text-[11px] font-bold hover:bg-white/5 transition-all">ROLLBACK</button>
+<button class="px-3 py-1.5 rounded-lg bg-error/10 text-error border border-error/20 text-[11px] font-bold hover:bg-error/20 transition-all">DISABLE</button>
+</div>
+</td>
+</tr>
+<!-- Vision-Core-Pro -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-tertiary/10 rounded-xl flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">visibility</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">Vision-Core-Pro</p>
+<p class="text-[11px] text-on-surface-variant font-mono-label uppercase">Surveillance AI • v5.2.0-beta</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex gap-4">
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">Acc</p>
+<p class="font-mono-label text-primary font-bold">92.1%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">Pre</p>
+<p class="font-mono-label text-on-surface">89.8%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">Rec</p>
+<p class="font-mono-label text-on-surface">91.0%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant mb-1">F1</p>
+<p class="font-mono-label text-on-surface">90.4%</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<div>
+<p class="text-body-sm text-error font-medium">850ms latency</p>
+<p class="text-[11px] text-on-surface-variant">1.2s inference</p>
+</div>
+</td>
+<td class="px-6 py-6">
+<div class="flex flex-col gap-1">
+<span class="flex items-center gap-2 text-error font-bold text-[11px] uppercase tracking-widest">
+<span class="w-2 h-2 bg-error rounded-full"></span>
+                                            Active / Degraded
+                                        </span>
+<span class="text-[10px] text-on-surface-variant">Training: Epoch 48/100</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="flex justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 rounded-lg border border-white/10 text-[11px] font-bold hover:bg-white/5 transition-all">LOGS</button>
+<button class="px-3 py-1.5 rounded-lg border border-white/10 text-[11px] font-bold hover:bg-white/5 transition-all">ROLLBACK</button>
+<button class="px-3 py-1.5 rounded-lg bg-error/10 text-error border border-error/20 text-[11px] font-bold hover:bg-error/20 transition-all">DISABLE</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Bottom Detail Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Training Queue -->
+<div class="glass-surface p-8 rounded-[24px]">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">model_training</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Training Queue</h4>
+</div>
+<div class="space-y-6">
+<div class="relative pl-6 border-l-2 border-primary/30">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+<div class="w-2 h-2 bg-background rounded-full"></div>
+</div>
+<p class="text-on-surface font-bold text-body-md">Object-Detection-XR</p>
+<p class="text-on-surface-variant text-body-sm">Preprocessing Dataset Alpha...</p>
+<div class="w-full h-1 bg-white/5 rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-primary w-[45%]"></div>
+</div>
+</div>
+<div class="relative pl-6 border-l-2 border-white/10">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-white/20 border border-white/20"></div>
+<p class="text-on-surface/50 font-bold text-body-md">Financial-Anomalies-v2</p>
+<p class="text-on-surface-variant/50 text-body-sm">Pending validation...</p>
+</div>
+</div>
+</div>
+<!-- System Logs Preview -->
+<div class="col-span-1 md:col-span-2 glass-surface p-8 rounded-[24px]">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">terminal</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Core Infrastructure Logs</h4>
+</div>
+<button class="text-label-md text-primary font-bold hover:underline">View Full Terminal</button>
+</div>
+<div class="bg-black/40 rounded-xl p-5 font-mono-label text-[12px] space-y-2 border border-white/5 overflow-y-auto max-h-[160px]">
+<p class="text-on-surface/40"><span class="text-tertiary">[14:22:01]</span> SENTINEL-V4.0: Inference request received from Node-7</p>
+<p class="text-on-surface/40"><span class="text-tertiary">[14:22:03]</span> SENTINEL-V4.0: Response emitted in 8ms (Status: 200)</p>
+<p class="text-on-surface/40"><span class="text-error">[14:23:44]</span> VISION-CORE: Resource warning - GPU utilization at 98%</p>
+<p class="text-on-surface/40"><span class="text-tertiary">[14:24:12]</span> GLOBAL: Auto-scaling active. Spinning up compute unit CX-02...</p>
+<p class="text-on-surface/40"><span class="text-primary">[14:25:00]</span> SYSTEM: Integrity check passed. All models synchronized.</p>
+<p class="text-on-surface/40"><span class="text-tertiary">[14:26:11]</span> SENTINEL-V4.0: Knowledge base updated with 452 new scan patterns.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Assistant Bubble (Fixed) -->
+<div class="fixed bottom-10 right-10 z-50">
+<div class="glass-surface-high w-16 h-16 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all border-2 border-primary/30 relative">
+<div class="absolute inset-0 rounded-full animate-ping bg-primary/10 -z-10"></div>
+<span class="material-symbols-outlined text-primary text-3xl">auto_awesome</span>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction scripts
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.boxShadow = "inset 4px 0 0 #b4c5ff";
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.boxShadow = "none";
+            });
+        });
+    </script>
+</body></html>

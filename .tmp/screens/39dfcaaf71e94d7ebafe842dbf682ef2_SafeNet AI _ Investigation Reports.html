@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeNet AI | Reports Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(14, 19, 31, 0.8);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .row-hover:hover {
+            background: rgba(255, 255, 255, 0.04);
+            transition: background 0.2s ease;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#b4c5ff",
+                        "surface-container-high": "#252a36",
+                        "surface-variant": "#2f3541",
+                        "on-secondary-container": "#b3b1ff",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-dim": "#0e131f",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-bright": "#343946",
+                        "on-error-container": "#ffdad6",
+                        "secondary": "#c3c0ff",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "on-tertiary-container": "#bdffdb",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-surface-variant": "#c3c6d7",
+                        "inverse-on-surface": "#2b303d",
+                        "secondary-fixed": "#e2dfff",
+                        "on-primary-fixed": "#00174b",
+                        "surface-tint": "#b4c5ff",
+                        "inverse-surface": "#dee2f3",
+                        "primary-container": "#2563eb",
+                        "outline": "#8d90a0",
+                        "on-primary-container": "#eeefff",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface-container-low": "#161c27",
+                        "surface": "#0e131f",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-background": "#dee2f3",
+                        "surface-container-lowest": "#090e19",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "tertiary-container": "#007d55",
+                        "background": "#0e131f",
+                        "on-secondary": "#1d00a5",
+                        "tertiary": "#4edea3",
+                        "on-primary": "#002a78",
+                        "surface-container-highest": "#2f3541",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary": "#003824",
+                        "surface-container": "#1a202b",
+                        "inverse-primary": "#0053db",
+                        "on-surface": "#dee2f3",
+                        "on-secondary-fixed": "#0f0069",
+                        "secondary-container": "#3626ce",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#6ffbbe",
+                        "outline-variant": "#434655",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-desktop": "40px",
+                        "sidebar-width": "280px",
+                        "container-padding-mobile": "20px",
+                        "top-nav-height": "72px",
+                        "unit": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "mono-label": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "mono-label": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/30 antialiased overflow-hidden">
+
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface/80 backdrop-blur-3xl border-r border-white/10 shadow-2xl flex flex-col py-8 px-4 z-50">
+<div class="flex items-center gap-3 px-4 mb-10">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary leading-tight">SafeNet AI</h1>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Intelligence Ops</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 custom-scrollbar overflow-y-auto pr-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">security</span>
+<span>Citizen Shield</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">payments</span>
+<span>Currency Detector</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">settings_phone</span>
+<span>Call Analyzer</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">hub</span>
+<span>Network Graph</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">location_on</span>
+<span>Heatmap</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">monitoring</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant font-medium hover:bg-white/10 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">admin_panel_settings</span>
+<span>Admin</span>
+</a>
+</nav>
+<div class="mt-auto px-4 pt-6 border-t border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-primary/30 p-0.5 overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional headshot of a Chief Intelligence Officer for a high-security tech firm. The subject is wearing a modern charcoal suit, with a confident expression. The lighting is dramatic and cool-toned with blue rim lighting, set against a background of blurred digital data monitors. The style is cinematic and high-fidelity enterprise noir." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb7YyABLPbaStu9Bw7f55Kv6ajgqWtIk-SXe5k7TEQjZlYRmkOpAXfCEYce_ZP_lYn2EEmy9a-mrcUySwaxrd5doDeG-O7IK7dp3LFPk3Oy6cgxgvEwCF21lonMKLBOdds0um6HpL-fylx7nRvUxxq6YlPxMBCgLw6TLgpOkTQNUalnvMjTlGT0G1i1V2_RUz8moLCGH4dvYFt6TI1OfDY1KjS-SqiblZtNsvoWa16s2P1Jfii4u2pGGKYS-Hl6qClxOFxz-3XrZw"/>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Alex Mercer</p>
+<p class="text-xs text-on-surface-variant">Chief Intel Officer</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-[72px] bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-10 z-40">
+<div class="flex items-center bg-surface-container-low/50 rounded-lg px-4 py-2 w-96 border border-white/5 focus-within:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-full text-on-surface placeholder:text-on-surface-variant" placeholder="Search specific cases, names, or IDs..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-on-surface-variant hover:text-primary transition-all p-2">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all p-2">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-6 w-px bg-white/10 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-label-md font-bold text-on-surface">System Status</p>
+<p class="text-[10px] text-tertiary flex items-center justify-end gap-1 uppercase tracking-tighter">
+<span class="w-1.5 h-1.5 bg-tertiary rounded-full animate-pulse"></span> Optimal
+                    </p>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[280px] mt-[72px] h-[calc(100vh-72px)] overflow-hidden flex flex-col p-10 bg-gradient-to-br from-surface-container-lowest to-surface-dim relative">
+<!-- Header Actions -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Reports &amp; Investigations</h2>
+<p class="text-on-surface-variant mt-1">Manage bulk citizen reports and active threat investigations.</p>
+</div>
+<div class="flex gap-3">
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2.5 bg-surface-variant/50 hover:bg-surface-variant text-on-surface rounded-lg border border-white/10 transition-all font-label-md text-label-md">
+<span class="material-symbols-outlined text-body-md">layers</span>
+                        Bulk Actions
+                        <span class="material-symbols-outlined text-body-md">expand_more</span>
+</button>
+</div>
+<button class="flex items-center gap-2 px-4 py-2.5 bg-surface-variant/50 hover:bg-surface-variant text-on-surface rounded-lg border border-white/10 transition-all font-label-md text-label-md">
+<span class="material-symbols-outlined text-body-md">csv</span>
+                    Export CSV
+                </button>
+<button class="flex items-center gap-2 px-4 py-2.5 bg-primary text-on-primary rounded-lg shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:opacity-90 transition-all font-label-md text-label-md">
+<span class="material-symbols-outlined text-body-md">picture_as_pdf</span>
+                    Export PDF
+                </button>
+</div>
+</div>
+<!-- Filters Grid -->
+<div class="grid grid-cols-4 gap-4 mb-6">
+<div class="glass-card p-4 rounded-xl">
+<label class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold block mb-2">Category</label>
+<select class="w-full bg-surface-container-lowest border border-white/10 rounded-lg py-2 px-3 text-sm focus:border-primary focus:ring-0 text-on-surface">
+<option>All Categories</option>
+<option>Call Scam</option>
+<option>Currency Fraud</option>
+<option>Identity Theft</option>
+<option>Cyber Intrusion</option>
+</select>
+</div>
+<div class="glass-card p-4 rounded-xl">
+<label class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold block mb-2">Status</label>
+<select class="w-full bg-surface-container-lowest border border-white/10 rounded-lg py-2 px-3 text-sm focus:border-primary focus:ring-0 text-on-surface">
+<option>All Statuses</option>
+<option>Investigation</option>
+<option>Flagged</option>
+<option>Resolved</option>
+<option>Archived</option>
+</select>
+</div>
+<div class="glass-card p-4 rounded-xl">
+<label class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold block mb-2">Priority</label>
+<select class="w-full bg-surface-container-lowest border border-white/10 rounded-lg py-2 px-3 text-sm focus:border-primary focus:ring-0 text-on-surface">
+<option>Any Priority</option>
+<option>Critical</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+</div>
+<div class="glass-card p-4 rounded-xl">
+<label class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold block mb-2">Date Range</label>
+<div class="flex items-center gap-2">
+<input class="flex-1 bg-surface-container-lowest border border-white/10 rounded-lg py-2 px-3 text-xs focus:border-primary focus:ring-0 text-on-surface" type="date"/>
+<span class="text-on-surface-variant">to</span>
+<input class="flex-1 bg-surface-container-lowest border border-white/10 rounded-lg py-2 px-3 text-xs focus:border-primary focus:ring-0 text-on-surface" type="date"/>
+</div>
+</div>
+</div>
+<!-- Data Table Section -->
+<div class="flex-1 glass-card rounded-2xl overflow-hidden flex flex-col">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse min-w-[1000px]">
+<thead class="bg-white/5 border-b border-white/10">
+<tr>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Case ID</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Citizen/Reporter</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Threat Category</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Priority</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Assigned Officer</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Date</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/[0.05]">
+<tr class="row-hover">
+<td class="py-4 px-6">
+<span class="font-mono-label text-mono-label bg-primary/10 text-primary border border-primary/20 px-2 py-1 rounded">SN-82910</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-variant flex items-center justify-center text-xs font-bold">JD</div>
+<span class="text-sm font-medium">John Doe</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm">Call Scam</td>
+<td class="py-4 px-6">
+<span class="flex items-center gap-1.5 text-xs font-semibold text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Investigation
+                                </span>
+</td>
+<td class="py-4 px-6">
+<span class="bg-error/10 text-error border border-error/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Critical</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full" data-alt="A small circular avatar of a law enforcement officer in a futuristic uniform, featuring a subtle digital HUD overlay on their lens. High-quality lighting, professional portrait style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgl26sPes6K-8-ZoJqoyJciGyfi7k6pLiR3b1oPX3s30uljPiCqIgiYTuKqL7_6Y1111LAY8Cs9fqSENzr_qo5usTVT2Sk2oUQ_Dk-dmtg1bC82t_V4qO_YqHCRcDElRNNaXGvMpYlUILrRDmYbull-EDWxIVZt4K_f2tkJOAA3ANCa8m1O9QrikZ-ZO2ONPO5yrZKpbo3H8B2cmttwQ5Xy2HL_tIcK2RfSDvAzip9DbIBIR0Eza3OES2HFfr_Hb0cD2Q4D1N7wiE"/>
+<span class="text-xs text-on-surface-variant">Sgt. Miller</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm text-on-surface-variant">Oct 24, 2023</td>
+<td class="py-4 px-6">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="row-hover">
+<td class="py-4 px-6">
+<span class="font-mono-label text-mono-label bg-primary/10 text-primary border border-primary/20 px-2 py-1 rounded">SN-82915</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-variant flex items-center justify-center text-xs font-bold">AS</div>
+<span class="text-sm font-medium">Alice Smith</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm">Currency Fraud</td>
+<td class="py-4 px-6">
+<span class="flex items-center gap-1.5 text-xs font-semibold text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Flagged
+                                </span>
+</td>
+<td class="py-4 px-6">
+<span class="bg-secondary/10 text-secondary border border-secondary/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">High</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full" data-alt="A professional investigator avatar with a clean, tech-oriented aesthetic. The lighting is sharp and clinical. Cinematic depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcSoKM0hzspidIYCyF1UaOrpGoKmYVs0tejeHmzqqv988gLBYNE0WqvgHoI5FWLB01DFtRJz-L2N6PB6x28bQufyarVtjzNIihBvJbsHl9AdiR3MjzyhjwblfPxVb_0aOwnXZKojKJTBYbXU9vP4tBs8oQfRYhMJ7SIgDssu7z8k3Y6sa08qonxG6ZIolCWY0rTRtW9Qf88TSLEFQtgT6U1vBtGItZt0-wh0Xjqrhi7dmV6EV499WFR10Tsyo7ApJ2diElHD8i30M"/>
+<span class="text-xs text-on-surface-variant">Det. Chen</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm text-on-surface-variant">Oct 24, 2023</td>
+<td class="py-4 px-6">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="row-hover">
+<td class="py-4 px-6">
+<span class="font-mono-label text-mono-label bg-primary/10 text-primary border border-primary/20 px-2 py-1 rounded">SN-82894</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-variant flex items-center justify-center text-xs font-bold">RB</div>
+<span class="text-sm font-medium">Robert Brown</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm">Call Scam</td>
+<td class="py-4 px-6">
+<span class="flex items-center gap-1.5 text-xs font-semibold text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Resolved
+                                </span>
+</td>
+<td class="py-4 px-6">
+<span class="bg-on-surface-variant/10 text-on-surface-variant border border-on-surface-variant/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Medium</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="text-xs italic text-on-surface-variant/60">Unassigned</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm text-on-surface-variant">Oct 23, 2023</td>
+<td class="py-4 px-6">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="row-hover">
+<td class="py-4 px-6">
+<span class="font-mono-label text-mono-label bg-primary/10 text-primary border border-primary/20 px-2 py-1 rounded">SN-82761</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-variant flex items-center justify-center text-xs font-bold">ML</div>
+<span class="text-sm font-medium">Marcus Lee</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm">Identity Theft</td>
+<td class="py-4 px-6">
+<span class="flex items-center gap-1.5 text-xs font-semibold text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Investigation
+                                </span>
+</td>
+<td class="py-4 px-6">
+<span class="bg-error/10 text-error border border-error/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Critical</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full" data-alt="Cybersecurity analyst professional headshot, looking forward with intelligence and focus. Deep blues and cyber noir background style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVa6dsw5HKUw9NzFDVA7BgGo3uVv5F6iEWshtPxhktmKL8sfmCbSbGEs-ZuXIXxa8RVE0JmrBpzdoN7NKf80x37aJvxKzKltRIQdhJ0wfLquKv1seTHD7nfrdQ6nJ8ZNqsZAyoGzxJCrWeYUF2l0h_f1HE8yhdVCUqHP4mVU6VB17T6chhv9czNmuFYFJ-NJP9un5w_fUVAaGd-rkvJNtQvarPSz0PTBOK5incnjPdog9n2AwPi1xsW-TATQ35fomdM2m0CusUCeI"/>
+<span class="text-xs text-on-surface-variant">Analyst K. Sarah</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm text-on-surface-variant">Oct 23, 2023</td>
+<td class="py-4 px-6">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="row-hover">
+<td class="py-4 px-6">
+<span class="font-mono-label text-mono-label bg-primary/10 text-primary border border-primary/20 px-2 py-1 rounded">SN-82603</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-variant flex items-center justify-center text-xs font-bold">EW</div>
+<span class="text-sm font-medium">Elena White</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm">Cyber Intrusion</td>
+<td class="py-4 px-6">
+<span class="flex items-center gap-1.5 text-xs font-semibold text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Resolved
+                                </span>
+</td>
+<td class="py-4 px-6">
+<span class="bg-on-surface-variant/10 text-on-surface-variant border border-on-surface-variant/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Medium</span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="text-xs italic text-on-surface-variant/60">Auto-Resolved</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm text-on-surface-variant">Oct 22, 2023</td>
+<td class="py-4 px-6">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="mt-auto px-6 py-4 border-t border-white/5 flex justify-between items-center bg-white/2">
+<span class="text-sm text-on-surface-variant">Showing 1 to 5 of 124 reports</span>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-white/10 hover:bg-white/10 text-on-surface-variant disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary text-sm font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-white/10 hover:bg-white/10 text-on-surface-variant text-sm">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-white/10 hover:bg-white/10 text-on-surface-variant text-sm">3</button>
+<span class="text-on-surface-variant mx-1">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-white/10 hover:bg-white/10 text-on-surface-variant text-sm">25</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-white/10 hover:bg-white/10 text-on-surface-variant">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- AI Assistant Floating Bubble -->
+<div class="fixed bottom-8 right-8 z-[60]">
+<div class="relative group">
+<div class="absolute -inset-1 bg-primary/40 rounded-full blur animate-pulse group-hover:bg-primary/60 transition-all"></div>
+<button class="relative glass-panel w-14 h-14 rounded-full flex items-center justify-center shadow-2xl border border-primary/40 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</button>
+<div class="absolute bottom-full right-0 mb-4 w-64 glass-panel p-4 rounded-2xl border border-white/10 shadow-2xl opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all pointer-events-none">
+<p class="text-xs font-bold text-primary mb-1 uppercase tracking-widest">SafeNet AI Assistant</p>
+<p class="text-sm text-on-surface leading-relaxed">I've detected 3 high-priority clusters in the "Call Scam" category. Would you like a generated summary?</p>
+</div>
+</div>
+</div>
+<!-- Right Drawer: Notification Center (Hidden by Default) -->
+<div class="fixed right-0 top-0 h-full w-[400px] bg-surface-container-high/90 backdrop-blur-2xl border-l border-white/15 shadow-[0_0_40px_rgba(0,0,0,0.5)] z-[100] translate-x-full transition-transform duration-300 ease-in-out" id="notification-drawer">
+<div class="flex flex-col h-full p-6">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Alert Center</h3>
+<p class="text-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Real-time Intelligence</p>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="toggleDrawer()"><span class="material-symbols-outlined">close</span></button>
+</div>
+<div class="space-y-4 overflow-y-auto custom-scrollbar flex-1 pr-2">
+<div class="p-4 rounded-xl border border-error/20 bg-error/5 relative overflow-hidden group">
+<div class="flex gap-3 relative z-10">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<p class="text-sm font-bold text-on-surface">Critical Breach Attempt</p>
+<p class="text-xs text-on-surface-variant mt-1">Multiple suspicious logins detected in Node 42-A.</p>
+<p class="text-[10px] text-on-surface-variant mt-2 font-mono">2 mins ago</p>
+</div>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-white/10 bg-white/5 relative overflow-hidden group">
+<div class="flex gap-3 relative z-10">
+<span class="material-symbols-outlined text-tertiary">dns</span>
+<div>
+<p class="text-sm font-bold text-on-surface">System Backup Complete</p>
+<p class="text-xs text-on-surface-variant mt-1">Database 'Alpha-9' has been successfully backed up to cold storage.</p>
+<p class="text-[10px] text-on-surface-variant mt-2 font-mono">45 mins ago</p>
+</div>
+</div>
+</div>
+</div>
+<button class="mt-6 w-full py-3 border border-white/10 rounded-lg text-sm font-bold hover:bg-white/5 transition-colors">Clear All Notifications</button>
+</div>
+</div>
+<script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('notification-drawer');
+            drawer.classList.toggle('translate-x-full');
+        }
+
+        // Mock interaction for notifications button
+        document.querySelector('button .material-symbols-outlined:contains("notifications")').parentElement.onclick = toggleDrawer;
+
+        // Custom selector for containing pseudo-content in symbols
+        window.onload = () => {
+            const spans = document.querySelectorAll('.material-symbols-outlined');
+            spans.forEach(span => {
+                if (span.textContent.trim() === 'notifications') {
+                    span.parentElement.onclick = toggleDrawer;
+                }
+            });
+        }
+    </script>
+</body></html>
