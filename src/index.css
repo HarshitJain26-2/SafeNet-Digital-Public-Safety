@@ -915,3 +915,454 @@ body {
   0% { transform: scale(0.6); opacity: 1; }
   100% { transform: scale(1.6); opacity: 0; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   RBAC Portal Architecture — New Styles
+   (Appended — no existing rules modified above this line)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Landing Page ──────────────────────────────────────────── */
+.landing-page {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.landing-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.landing-nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.landing-nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.landing-nav-links a:hover {
+  color: var(--primary);
+}
+
+.landing-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.landing-btn-primary {
+  background: var(--primary-container);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+}
+
+.landing-btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.landing-btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.landing-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.landing-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ── Login Page ────────────────────────────────────────────── */
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.login-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding: 40px;
+  max-width: 720px;
+  width: 100%;
+}
+
+.login-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -1px;
+  margin-top: 12px;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.login-instruction {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.login-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.role-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: var(--font-sans);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.role-card:hover {
+  border-color: var(--card-accent, rgba(37, 99, 235, 0.4));
+  box-shadow: 0 0 30px color-mix(in srgb, var(--card-accent, #2563eb) 20%, transparent);
+  transform: translateY(-2px);
+}
+
+.role-card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.role-card-icon span {
+  font-size: 26px;
+}
+
+.role-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.role-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+}
+
+.role-card-subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.role-card-desc {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.role-card-arrow {
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.role-card:hover .role-card-arrow {
+  color: white;
+  transform: translateX(4px);
+}
+
+.login-footer {
+  margin-top: 8px;
+}
+
+.login-back-link {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+.login-back-link:hover {
+  color: var(--primary);
+}
+
+/* ── Portal Content Area ───────────────────────────────────── */
+.portal-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Screen Page (iframe container) ────────────────────────── */
+.screen-page {
+  width: 100%;
+  height: 100%;
+}
+
+.screen-page-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.screen-page-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+}
+
+.screen-page-empty h3 {
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+.screen-page-empty p {
+  font-size: 13px;
+}
+
+/* ── Navigation Section Labels ─────────────────────────────── */
+.nav-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 16px 16px 6px;
+  opacity: 0.6;
+}
+
+/* ── Profile Menu ──────────────────────────────────────────── */
+.profile-menu-container {
+  position: relative;
+  margin-left: 8px;
+}
+
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  padding: 6px 12px 6px 6px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-sans);
+}
+
+.profile-trigger:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--primary-container);
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-info-mini {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-name-mini {
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+}
+
+.profile-role-mini {
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 260px;
+  padding: 16px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeInDown 0.15s ease-out;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-avatar-lg {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--primary-container);
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+}
+
+.profile-dropdown-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+}
+
+.profile-dropdown-unit {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.profile-dropdown-role-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.profile-dropdown-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.profile-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  padding: 8px 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.profile-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--error);
+}
+
+.profile-dropdown-item span {
+  font-size: 18px;
+}
