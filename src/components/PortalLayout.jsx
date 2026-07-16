@@ -1,12 +1,57 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import ProfileMenu from './ProfileMenu';
 
+const INDIAN_LANGUAGES = [
+  { code: 'en', name: 'English', native: 'English' },
+  { code: 'hi', name: 'Hindi', native: 'हिन्दी' },
+  { code: 'bn', name: 'Bengali', native: 'বাংলা' },
+  { code: 'te', name: 'Telugu', native: 'తెలుగు' },
+  { code: 'mr', name: 'Marathi', native: 'मराठी' },
+  { code: 'ta', name: 'Tamil', native: 'தமிழ்' },
+  { code: 'gu', name: 'Gujarati', native: 'ગુજરાતી' },
+  { code: 'ur', name: 'Urdu', native: 'اردو' },
+  { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ' },
+  { code: 'or', name: 'Odia', native: 'ଓଡ଼ିଆ' },
+  { code: 'ml', name: 'Malayalam', native: 'മലയാളം' },
+  { code: 'pa', name: 'Punjabi', native: 'ਪੰਜਾਬੀ' },
+];
+
 export default function PortalLayout({ portalName, portalSubtitle, portalIcon, screens, basePath }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const { user } = useAuth();
+  const { user, language, changeLanguage } = useAuth();
   const location = useLocation();
+
+  // Language state
+  const currentLang = INDIAN_LANGUAGES.find((lang) => lang.code === language) || INDIAN_LANGUAGES[0];
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
+  const langMenuRef = useRef(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (langMenuRef.current && !langMenuRef.current.contains(e.target)) {
+        setLangDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLanguageChange = (lang) => {
+    changeLanguage(lang.code);
+    setLangDropdownOpen(false);
+    setToastMessage(`Localization engine updated: Switched to ${lang.name} (${lang.native}).`);
+    setToastVisible(true);
+
+    const timer = setTimeout(() => {
+      setToastVisible(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  };
 
   // Derive sections from screen data
   const sections = [...new Set(screens.map((s) => s.section))];
@@ -35,6 +80,17 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
       {/* Ambient background decorations */}
       <div className="ambient-glow-1"></div>
       <div className="ambient-glow-2"></div>
+
+      {/* Translation synchronization toast */}
+      {toastVisible && (
+        <div className="translation-toast fade-in shadow-lg">
+          <span className="material-symbols-outlined spin-sync">sync</span>
+          <div className="toast-text-content">
+            <span className="toast-title">Language Engine Synchronized</span>
+            <span className="toast-desc">{toastMessage}</span>
+          </div>
+        </div>
+      )}
 
       {/* Left Sidebar */}
       <aside className="sidebar glass-panel">
@@ -108,6 +164,47 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
           </div>
 
           <div className="header-right">
+            {/* Language Selector Dropdown */}
+            <div className="lang-selector-container" ref={langMenuRef}>
+              <button
+                type="button"
+                className="lang-trigger action-btn"
+                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+                title="Switch Language"
+              >
+                <span className="material-symbols-outlined">language</span>
+                <span className="lang-code-label">{currentLang.code.toUpperCase()}</span>
+              </button>
+
+              {langDropdownOpen && (
+                <div className="lang-dropdown glass-card">
+                  <div className="lang-dropdown-header">
+                    <span className="lang-dropdown-title">System Language</span>
+                    <span className="lang-dropdown-subtitle">12 Regional Options</span>
+                  </div>
+                  <div className="lang-dropdown-divider" />
+                  <div className="lang-list">
+                    {INDIAN_LANGUAGES.map((lang) => (
+                      <button
+                        key={lang.code}
+                        type="button"
+                        className={`lang-item ${currentLang.code === lang.code ? 'active' : ''}`}
+                        onClick={() => handleLanguageChange(lang)}
+                      >
+                        <div className="lang-text-group">
+                          <span className="lang-native">{lang.native}</span>
+                          <span className="lang-english">{lang.name}</span>
+                        </div>
+                        {currentLang.code === lang.code && (
+                          <span className="material-symbols-outlined check-icon">check</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <button className="action-btn" title="Notifications">
               <span className="material-symbols-outlined">notifications</span>
             </button>

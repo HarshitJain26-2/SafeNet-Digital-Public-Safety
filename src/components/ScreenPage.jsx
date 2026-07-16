@@ -2,6 +2,25 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
+const syncTranslation = (doc, langCode, retries = 30) => {
+  if (!doc) return;
+  try {
+    const selectEl = doc.querySelector('.goog-te-combo');
+    if (selectEl) {
+      if (selectEl.value !== langCode) {
+        selectEl.value = langCode;
+        selectEl.dispatchEvent(new Event('change'));
+      }
+    } else if (retries > 0) {
+      setTimeout(() => {
+        syncTranslation(doc, langCode, retries - 1);
+      }, 150);
+    }
+  } catch (err) {
+    console.warn("Translation synchronization error: ", err);
+  }
+};
+
 function ProfileScreen() {
   const { user, roleLabel, updateUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
@@ -207,8 +226,23 @@ function ProfileScreen() {
 
 export default function ScreenPage({ screens }) {
   const { '*': splat } = useParams();
-  const { user, roleLabel } = useAuth();
+  const { user, roleLabel, language } = useAuth();
   const screen = screens.find((s) => s.path === splat);
+
+  // Sync translation across parent/child document
+  useEffect(() => {
+    syncTranslation(document, language);
+
+    const iframe = document.querySelector('.screen-page-iframe');
+    if (iframe) {
+      try {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        syncTranslation(iframeDoc, language);
+      } catch (err) {
+        console.warn("Could not sync iframe language directly on effect: ", err);
+      }
+    }
+  }, [language, splat]);
 
   if (!screen) {
     return (
@@ -223,9 +257,10 @@ export default function ScreenPage({ screens }) {
   // Same-origin style injection to strip nested sidebars/headers and margin adjustments
   const handleIframeLoad = (e) => {
     try {
-      const iframeDoc = e.target.contentDocument || e.target.contentWindow.document;
+      const iframeWindow = e.target.contentWindow;
+      const iframeDoc = e.target.contentDocument || iframeWindow.document;
       if (iframeDoc) {
-        // Inject styles directly into the iframe's head
+        // 1. Inject styles directly into the iframe's head
         const style = iframeDoc.createElement('style');
         style.innerHTML = `
           /* Hide nested sidebar, headers, and footer */
@@ -254,11 +289,51 @@ export default function ScreenPage({ screens }) {
             padding-top: 16px !important;
             padding-bottom: 16px !important;
           }
+
+          /* Hide Google Translate UI elements inside iframe */
+          .goog-te-banner-frame, .goog-te-balloon-frame {
+            display: none !important;
+          }
+          body {
+            top: 0 !important;
+          }
+          font {
+            background-color: transparent !important;
+            box-shadow: none !important;
+          }
         `;
         iframeDoc.head.appendChild(style);
+
+        // 2. Inject Google Translate elements and scripts inside the iframe
+        if (!iframeDoc.getElementById('google_translate_element')) {
+          const div = iframeDoc.createElement('div');
+          div.id = 'google_translate_element';
+          div.style.display = 'none';
+          iframeDoc.body.appendChild(div);
+
+          // Add initialization script
+          const scriptInit = iframeDoc.createElement('script');
+          scriptInit.innerHTML = `
+            window.googleTranslateElementInit = function() {
+              new window.google.translate.TranslateElement({
+                pageLanguage: 'en',
+                autoDisplay: false
+              }, 'google_translate_element');
+            }
+          `;
+          iframeDoc.head.appendChild(scriptInit);
+
+          // Add source script
+          const scriptSrc = iframeDoc.createElement('script');
+          scriptSrc.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+          iframeDoc.head.appendChild(scriptSrc);
+        }
+
+        // 3. Immediately apply active language to iframe
+        syncTranslation(iframeDoc, language);
       }
     } catch (err) {
-      console.warn("Could not modify iframe layout: ", err);
+      console.warn("Could not modify iframe layout or inject translation: ", err);
     }
   };
 

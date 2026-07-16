@@ -61,6 +61,15 @@ export function AuthProvider({ children }) {
     });
   };
 
+  const [language, setLanguageState] = useState(() => {
+    return localStorage.getItem('safenet_language') || 'en';
+  });
+
+  const changeLanguage = (langCode) => {
+    setLanguageState(langCode);
+    localStorage.setItem('safenet_language', langCode);
+  };
+
   const value = {
     user,
     role: user?.role || null,
@@ -68,6 +77,8 @@ export function AuthProvider({ children }) {
     login,
     logout,
     updateUser,
+    language,
+    changeLanguage,
     portalPath: user ? ROLE_PORTALS[user.role] : '/',
     roleLabel: user ? ROLE_LABELS[user.role] : '',
   };
