@@ -165,7 +165,7 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
 
           <div className="header-right">
             {/* Language Selector Dropdown */}
-            <div className="lang-selector-container" ref={langMenuRef}>
+            <div className="lang-selector-container notranslate" translate="no" ref={langMenuRef}>
               <button
                 type="button"
                 className="lang-trigger action-btn"
