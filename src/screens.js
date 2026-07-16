@@ -352,6 +352,16 @@ export const adminScreens = [
     section: "Intelligence",
   },
   {
+    id: "admin-profile",
+    path: "profile",
+    title: "Admin Profile",
+    icon: "person",
+    isMock: true,
+    mockType: "profile",
+    description: "Manage admin profile details and system access credentials.",
+    section: "System",
+  },
+  {
     id: "settings",
     path: "settings",
     title: "Settings",

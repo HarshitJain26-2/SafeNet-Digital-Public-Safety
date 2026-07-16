@@ -43,12 +43,31 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
+  const updateUser = (updates) => {
+    setUser((prev) => {
+      if (!prev) return null;
+      const updated = { ...prev, ...updates };
+      if (updates.name && (!updates.avatar || updates.avatar === prev.avatar)) {
+        const initials = updates.name
+          .split(' ')
+          .filter(Boolean)
+          .map((n) => n[0])
+          .join('')
+          .slice(0, 2)
+          .toUpperCase();
+        updated.avatar = initials || 'U';
+      }
+      return updated;
+    });
+  };
+
   const value = {
     user,
     role: user?.role || null,
     isAuthenticated: !!user,
     login,
     logout,
+    updateUser,
     portalPath: user ? ROLE_PORTALS[user.role] : '/',
     roleLabel: user ? ROLE_LABELS[user.role] : '',
   };
