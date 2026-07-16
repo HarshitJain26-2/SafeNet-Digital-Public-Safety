@@ -1,5 +1,209 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+
+function ProfileScreen() {
+  const { user, roleLabel, updateUser } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [name, setName] = useState(user?.name || '');
+  const [unit, setUnit] = useState(user?.unit || '');
+  const [saving, setSaving] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setUnit(user.unit);
+    }
+  }, [user]);
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      setError('Profile name cannot be empty.');
+      return;
+    }
+    if (name.trim().length < 3) {
+      setError('Profile name must be at least 3 characters long.');
+      return;
+    }
+    if (!unit.trim()) {
+      setError('Assigned station / unit cannot be empty.');
+      return;
+    }
+    setError('');
+    setSaving(true);
+
+    // Simulate high-speed database profile synchronization (800ms)
+    setTimeout(() => {
+      updateUser({ name: name.trim(), unit: unit.trim() });
+      setSaving(false);
+      setSuccess(true);
+      setIsEditing(false);
+      
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+    }, 800);
+  };
+
+  const handleCancel = () => {
+    setName(user?.name || '');
+    setUnit(user?.unit || '');
+    setError('');
+    setIsEditing(false);
+  };
+
+  return (
+    <div className="mock-page-container fade-in">
+      <div className="mock-glass-card">
+        {success && (
+          <div className="profile-alert success fade-in">
+            <span className="material-symbols-outlined alert-icon">check_circle</span>
+            <div className="alert-content">
+              <h4>Update Synchronized</h4>
+              <p>Your platform identity credentials have been updated successfully.</p>
+            </div>
+          </div>
+        )}
+
+        {error && (
+          <div className="profile-alert error fade-in">
+            <span className="material-symbols-outlined alert-icon">error</span>
+            <div className="alert-content">
+              <h4>Synchronization Failed</h4>
+              <p>{error}</p>
+            </div>
+          </div>
+        )}
+
+        <div className="profile-header-large">
+          <div className="avatar-huge">{user?.avatar || 'U'}</div>
+          <div className="profile-titles">
+            <h2>{user?.name || 'User Name'}</h2>
+            <div className="badge-wrapper">
+              <span className="clearance-badge">{roleLabel}</span>
+              <span className="status-dot-active">Active Node</span>
+            </div>
+          </div>
+        </div>
+
+        {isEditing ? (
+          <form onSubmit={handleSave} className="profile-form">
+            <div className="form-grid">
+              <div className="form-item">
+                <label className="form-label">Full Name / Identity</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter full name"
+                  disabled={saving}
+                />
+              </div>
+
+              <div className="form-item">
+                <label className="form-label">Assigned Station / Unit</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  value={unit}
+                  onChange={(e) => setUnit(e.target.value)}
+                  placeholder="Enter station or unit name"
+                  disabled={saving}
+                />
+              </div>
+
+              <div className="form-item disabled-item">
+                <label className="form-label">Security Protocol Clearance</label>
+                <input
+                  type="text"
+                  className="form-input disabled"
+                  value={roleLabel}
+                  disabled
+                />
+                <span className="input-hint">Role clearance details are read-only</span>
+              </div>
+
+              <div className="form-item disabled-item">
+                <label className="form-label">Encryption Protocol</label>
+                <input
+                  type="text"
+                  className="form-input disabled"
+                  value="AES-GCM-256 (Quantum Resistant)"
+                  disabled
+                />
+                <span className="input-hint">Automatically enforced system-wide</span>
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={handleCancel}
+                disabled={saving}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="btn-primary"
+                disabled={saving}
+              >
+                {saving ? (
+                  <>
+                    <span className="spinner"></span>
+                    Syncing...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined">sync</span>
+                    Save Changes
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div>
+            <div className="info-grid">
+              <div className="info-item">
+                <span className="info-label">Assigned Station / Unit</span>
+                <span className="info-val">{user?.unit || 'General Division'}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Security Protocol clearance</span>
+                <span className="info-val">Level 5 (Directives Isolation)</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Active Node Connection</span>
+                <span className="info-val">{window.location.hostname}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Encryption Protocol</span>
+                <span className="info-val">AES-GCM-256 (Quantum Resistant)</span>
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => setIsEditing(true)}
+              >
+                <span className="material-symbols-outlined">edit</span>
+                Edit Profile
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function ScreenPage({ screens }) {
   const { '*': splat } = useParams();
@@ -61,41 +265,7 @@ export default function ScreenPage({ screens }) {
   // Render mock pages with premium styling
   if (screen.isMock) {
     if (screen.mockType === 'profile') {
-      return (
-        <div className="mock-page-container fade-in">
-          <div className="mock-glass-card">
-            <div className="profile-header-large">
-              <div className="avatar-huge">{user?.avatar || 'U'}</div>
-              <div className="profile-titles">
-                <h2>{user?.name || 'User Name'}</h2>
-                <div className="badge-wrapper">
-                  <span className="clearance-badge">{roleLabel}</span>
-                  <span className="status-dot-active">Active Node</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="info-grid">
-              <div className="info-item">
-                <span className="info-label">Assigned Station / Unit</span>
-                <span className="info-val">{user?.unit || 'General Division'}</span>
-              </div>
-              <div className="info-item">
-                <span className="info-label">Security Protocol clearance</span>
-                <span className="info-val">Level 5 (Directives Isolation)</span>
-              </div>
-              <div className="info-item">
-                <span className="info-label">Active Node Connection</span>
-                <span className="info-val">{window.location.hostname}</span>
-              </div>
-              <div className="info-item">
-                <span className="info-label">Encryption Protocol</span>
-                <span className="info-val">AES-GCM-256 (Quantum Resistant)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+      return <ProfileScreen />;
     }
 
     if (screen.mockType === 'notifications') {
