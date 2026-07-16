@@ -79,7 +79,7 @@ function ProfileScreen() {
       <div className="mock-glass-card">
         {success && (
           <div className="profile-alert success fade-in">
-            <span className="material-symbols-outlined alert-icon">check_circle</span>
+            <span className="material-symbols-outlined alert-icon notranslate" translate="no">check_circle</span>
             <div className="alert-content">
               <h4>Update Synchronized</h4>
               <p>Your platform identity credentials have been updated successfully.</p>
@@ -89,7 +89,7 @@ function ProfileScreen() {
 
         {error && (
           <div className="profile-alert error fade-in">
-            <span className="material-symbols-outlined alert-icon">error</span>
+            <span className="material-symbols-outlined alert-icon notranslate" translate="no">error</span>
             <div className="alert-content">
               <h4>Synchronization Failed</h4>
               <p>{error}</p>
@@ -98,7 +98,7 @@ function ProfileScreen() {
         )}
 
         <div className="profile-header-large">
-          <div className="avatar-huge">{user?.avatar || 'U'}</div>
+          <div className="avatar-huge notranslate" translate="no">{user?.avatar || 'U'}</div>
           <div className="profile-titles">
             <h2>{user?.name || 'User Name'}</h2>
             <div className="badge-wrapper">
@@ -179,7 +179,7 @@ function ProfileScreen() {
                   </>
                 ) : (
                   <>
-                    <span className="material-symbols-outlined">sync</span>
+                    <span className="material-symbols-outlined notranslate" translate="no">sync</span>
                     Save Changes
                   </>
                 )}
@@ -213,7 +213,7 @@ function ProfileScreen() {
                 className="btn-primary"
                 onClick={() => setIsEditing(true)}
               >
-                <span className="material-symbols-outlined">edit</span>
+                <span className="material-symbols-outlined notranslate" translate="no">edit</span>
                 Edit Profile
               </button>
             </div>
@@ -320,6 +320,16 @@ export default function ScreenPage({ screens }) {
                 autoDisplay: false
               }, 'google_translate_element');
             }
+
+            const protectIcons = () => {
+              document.querySelectorAll('.material-symbols-outlined').forEach((el) => {
+                if (!el.classList.contains('notranslate')) el.classList.add('notranslate');
+                if (el.getAttribute('translate') !== 'no') el.setAttribute('translate', 'no');
+              });
+            };
+            protectIcons();
+            const observer = new MutationObserver(protectIcons);
+            observer.observe(document.documentElement, { childList: true, subtree: true });
           `;
           iframeDoc.head.appendChild(scriptInit);
 

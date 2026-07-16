@@ -21,6 +21,17 @@
           autoDisplay: false
         }, 'google_translate_element');
       }
+
+      // Enforce notranslate on all Material Icons to prevent layout overlap bugs
+      const protectIcons = () => {
+        document.querySelectorAll('.material-symbols-outlined').forEach((el) => {
+          if (!el.classList.contains('notranslate')) el.classList.add('notranslate');
+          if (el.getAttribute('translate') !== 'no') el.setAttribute('translate', 'no');
+        });
+      };
+      protectIcons();
+      const observer = new MutationObserver(protectIcons);
+      observer.observe(document.documentElement, { childList: true, subtree: true });
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="module" src="/src/main.jsx"></script>

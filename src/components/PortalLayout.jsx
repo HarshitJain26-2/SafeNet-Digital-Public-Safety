@@ -84,7 +84,7 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
       {/* Translation synchronization toast */}
       {toastVisible && (
         <div className="translation-toast fade-in shadow-lg">
-          <span className="material-symbols-outlined spin-sync">sync</span>
+          <span className="material-symbols-outlined spin-sync notranslate" translate="no">sync</span>
           <div className="toast-text-content">
             <span className="toast-title">Language Engine Synchronized</span>
             <span className="toast-desc">{toastMessage}</span>
@@ -96,7 +96,7 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
       <aside className="sidebar glass-panel">
         <div className="sidebar-header">
           <div className="logo-container">
-            <span className="material-symbols-outlined">{portalIcon}</span>
+            <span className="material-symbols-outlined notranslate" translate="no">{portalIcon}</span>
           </div>
           <div>
             <h1 className="brand-title">SafeNet AI</h1>
@@ -107,7 +107,7 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
         {/* Search */}
         <div className="sidebar-search">
           <div className="search-wrapper">
-            <span className="material-symbols-outlined">search</span>
+            <span className="material-symbols-outlined notranslate" translate="no">search</span>
             <input
               type="text"
               className="search-input"
@@ -131,7 +131,7 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
                     className={({ isActive }) => `screen-item ${isActive ? 'active' : ''}`}
                   >
                     <div className="screen-icon-box">
-                      <span className="material-symbols-outlined">{screen.icon}</span>
+                      <span className="material-symbols-outlined notranslate" translate="no">{screen.icon}</span>
                     </div>
                     <div className="screen-info">
                       <h4 className="screen-title">{screen.title}</h4>
@@ -155,9 +155,9 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
           <div className="header-left">
             <div className="breadcrumbs">
               <span>SafeNet AI</span>
-              <span className="breadcrumbs-sep">/</span>
+              <span className="breadcrumbs-sep notranslate" translate="no">/</span>
               <span>{portalName}</span>
-              <span className="breadcrumbs-sep">/</span>
+              <span className="breadcrumbs-sep notranslate" translate="no">/</span>
               <span>{activeScreen.title}</span>
             </div>
             <h2 className="current-title">{activeScreen.title}</h2>
@@ -172,7 +172,7 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
                 title="Switch Language"
               >
-                <span className="material-symbols-outlined">language</span>
+                <span className="material-symbols-outlined notranslate" translate="no">language</span>
                 <span className="lang-code-label">{currentLang.code.toUpperCase()}</span>
               </button>
 
@@ -196,7 +196,7 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
                           <span className="lang-english">{lang.name}</span>
                         </div>
                         {currentLang.code === lang.code && (
-                          <span className="material-symbols-outlined check-icon">check</span>
+                          <span className="material-symbols-outlined check-icon notranslate" translate="no">check</span>
                         )}
                       </button>
                     ))}
@@ -206,10 +206,10 @@ export default function PortalLayout({ portalName, portalSubtitle, portalIcon, s
             </div>
 
             <button className="action-btn" title="Notifications">
-              <span className="material-symbols-outlined">notifications</span>
+              <span className="material-symbols-outlined notranslate" translate="no">notifications</span>
             </button>
             <button className="action-btn" title="Settings">
-              <span className="material-symbols-outlined">settings</span>
+              <span className="material-symbols-outlined notranslate" translate="no">settings</span>
             </button>
             <ProfileMenu />
           </div>

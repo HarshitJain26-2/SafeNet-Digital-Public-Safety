@@ -28,12 +28,12 @@ export default function ProfileMenu() {
   return (
     <div className="profile-menu-container" ref={menuRef}>
       <button className="profile-trigger" onClick={() => setOpen(!open)}>
-        <div className="profile-avatar">{user.avatar}</div>
+        <div className="profile-avatar notranslate" translate="no">{user.avatar}</div>
         <div className="profile-info-mini">
           <span className="profile-name-mini">{user.name}</span>
           <span className="profile-role-mini">{roleLabel}</span>
         </div>
-        <span className="material-symbols-outlined" style={{ fontSize: 18, opacity: 0.5 }}>
+        <span className="material-symbols-outlined notranslate" translate="no" style={{ fontSize: 18, opacity: 0.5 }}>
           {open ? 'expand_less' : 'expand_more'}
         </span>
       </button>
@@ -41,19 +41,19 @@ export default function ProfileMenu() {
       {open && (
         <div className="profile-dropdown glass-card">
           <div className="profile-dropdown-header">
-            <div className="profile-avatar-lg">{user.avatar}</div>
+            <div className="profile-avatar-lg notranslate" translate="no">{user.avatar}</div>
             <div>
               <div className="profile-dropdown-name">{user.name}</div>
               <div className="profile-dropdown-unit">{user.unit}</div>
             </div>
           </div>
           <div className="profile-dropdown-role-badge">
-            <span className="material-symbols-outlined" style={{ fontSize: 14 }}>verified_user</span>
+            <span className="material-symbols-outlined notranslate" translate="no" style={{ fontSize: 14 }}>verified_user</span>
             {roleLabel}
           </div>
           <div className="profile-dropdown-divider" />
           <button className="profile-dropdown-item" onClick={handleLogout}>
-            <span className="material-symbols-outlined">logout</span>
+            <span className="material-symbols-outlined notranslate" translate="no">logout</span>
             Sign Out
           </button>
         </div>
