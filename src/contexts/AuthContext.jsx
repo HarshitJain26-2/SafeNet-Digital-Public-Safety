@@ -28,12 +28,15 @@ export function AuthProvider({ children }) {
     }
   }, [user]);
 
-  const login = (role) => {
+  const login = (role, signupName) => {
+    const defaultName = role === 'citizen' ? 'Priya Sharma' : role === 'officer' ? 'Inspector Vikram Singh' : 'CIO Marcus Thorne';
+    const userName = signupName || defaultName;
+    const initials = userName.split(' ').filter(Boolean).map((n) => n[0]).join('').slice(0, 2).toUpperCase() || 'U';
     const newUser = {
       role,
-      name: role === 'citizen' ? 'Priya Sharma' : role === 'officer' ? 'Inspector Vikram Singh' : 'CIO Marcus Thorne',
+      name: userName,
       unit: role === 'citizen' ? 'NCR Region' : role === 'officer' ? 'Cyber Crime Unit 7' : 'Operations Unit 7',
-      avatar: role === 'admin' ? 'MT' : role === 'officer' ? 'VS' : 'PS',
+      avatar: initials,
     };
     setUser(newUser);
     return ROLE_PORTALS[role];
