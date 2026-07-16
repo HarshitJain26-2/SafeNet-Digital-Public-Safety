@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const ROLES = [
@@ -31,11 +31,13 @@ const ROLES = [
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, isAuthenticated, portalPath } = useAuth();
   const iframeRef = useRef(null);
 
+  const initialMode = location.state?.mode || 'signin';
   const [selectedRole, setSelectedRole] = useState(null);
-  const [authMode, setAuthMode] = useState('signin'); // 'signin' | 'signup'
+  const [authMode, setAuthMode] = useState(initialMode); // 'signin' | 'signup'
 
   // If already authenticated, redirect to portal
   if (isAuthenticated) {
@@ -45,7 +47,7 @@ export default function LoginPage() {
 
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
-    setAuthMode('signin');
+    setAuthMode(initialMode);
   };
 
   const handleBack = () => {

@@ -33,12 +33,12 @@ export default function LandingPage() {
             </button>
           ) : (
             <>
-              <button className="landing-btn-secondary" onClick={() => navigate('/login')}>
+              <button className="landing-btn-secondary" onClick={() => navigate('/login', { state: { mode: 'signin' } })}>
                 Sign In
               </button>
-              <button className="landing-btn-primary" onClick={() => navigate('/login')}>
-                <span className="material-symbols-outlined" style={{ fontSize: 18 }}>login</span>
-                Access Portal
+              <button className="landing-btn-primary" onClick={() => navigate('/login', { state: { mode: 'signup' } })}>
+                <span className="material-symbols-outlined" style={{ fontSize: 18 }}>person_add</span>
+                Sign Up
               </button>
             </>
           )}
