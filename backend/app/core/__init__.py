@@ -1,0 +1,1 @@
+"""ShieldAI Backend — Core package."""

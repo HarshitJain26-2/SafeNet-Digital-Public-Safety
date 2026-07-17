@@ -1,0 +1,90 @@
+{
+  "₹100": [
+    {
+      "id": "sec_thread",
+      "name": "Windowed Security Thread",
+      "description": "Colour shift from green to blue when tilted. Contains 'Bharat' and 'RBI'."
+    },
+    {
+      "id": "watermark",
+      "name": "Mahatma Gandhi Watermark",
+      "description": "Electrotype (100) watermark alongside Gandhi portrait."
+    },
+    {
+      "id": "latent_image",
+      "name": "Latent Image",
+      "description": "Latent image with denominational numeral 100."
+    },
+    {
+      "id": "micro_letters",
+      "name": "Micro-lettering",
+      "description": "'RBI', 'Bharat', 'India' and '100'."
+    }
+  ],
+  "₹200": [
+    {
+      "id": "sec_thread",
+      "name": "Windowed Security Thread",
+      "description": "Colour shift from green to blue when tilted. Contains 'Bharat' and 'RBI'."
+    },
+    {
+      "id": "watermark",
+      "name": "Mahatma Gandhi Watermark",
+      "description": "Electrotype (200) watermark alongside Gandhi portrait."
+    },
+    {
+      "id": "color_shift",
+      "name": "Colour Shifting Ink",
+      "description": "Denominational numeral 200 changes from green to blue."
+    },
+    {
+      "id": "h_symbol",
+      "name": "H-Symbol for Visually Impaired",
+      "description": "Raised printing of Mahatma Gandhi portrait, Ashoka Pillar emblem, raised Identification mark H with micro-text ₹200, four angular bleed lines with two circles in between the lines."
+    }
+  ],
+  "₹500": [
+    {
+      "id": "sec_thread",
+      "name": "Windowed Security Thread",
+      "description": "Colour shift from green to blue when tilted. Contains 'Bharat' and 'RBI'."
+    },
+    {
+      "id": "watermark",
+      "name": "Mahatma Gandhi Watermark",
+      "description": "Electrotype (500) watermark alongside Gandhi portrait."
+    },
+    {
+      "id": "color_shift",
+      "name": "Colour Shifting Ink",
+      "description": "Denominational numeral 500 in lower right changes from green to blue."
+    },
+    {
+      "id": "circle_symbol",
+      "name": "Circle Symbol for Visually Impaired",
+      "description": "Raised printing of Mahatma Gandhi portrait, Ashoka Pillar emblem, circular identification mark with microtext ₹500 on the right, five angular bleed lines on both the left and right sides."
+    }
+  ],
+  "₹2000": [
+    {
+      "id": "sec_thread",
+      "name": "Windowed Security Thread",
+      "description": "Colour shift from green to blue when tilted. Contains 'Bharat' and 'RBI' and '2000'."
+    },
+    {
+      "id": "watermark",
+      "name": "Mahatma Gandhi Watermark",
+      "description": "Electrotype (2000) watermark alongside Gandhi portrait."
+    },
+    {
+      "id": "color_shift",
+      "name": "Colour Shifting Ink",
+      "description": "Denominational numeral 2000 in lower right changes from green to blue."
+    },
+    {
+      "id": "rectangle_symbol",
+      "name": "Rectangle Symbol for Visually Impaired",
+      "description": "Raised printing of Mahatma Gandhi portrait, Ashoka Pillar emblem, horizontal rectangle with ₹2000, seven angular bleed lines on left and right sides."
+    }
+  ]
+}
